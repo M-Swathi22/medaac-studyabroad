@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@import "./styles/theme.css";
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--light);
+  color: var(--dark);
+}
+html, body {
+  overflow-x: hidden;
+}

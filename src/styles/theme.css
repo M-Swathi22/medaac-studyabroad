@@ -1,0 +1,16 @@
+:root {
+  /* PRIMARY BRAND COLORS (aqua / cyan tone like Medaac) */
+  --primary: #0A727A ;     /* aqua blue (main brand feel) */
+  --primary-dark: #007ea3;
+  --primary-light: #e6f7fb;
+
+  --secondary: #f7941d;   /* orange (unchanged but balanced) */
+
+  /* NEUTRALS */
+  --dark: #1f2937;
+  --light: #f9fafb;
+  --gray: #6b7280;
+
+  /* FONT */
+  --font-main: 'Poppins', sans-serif;
+}
