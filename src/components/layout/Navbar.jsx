@@ -1,44 +1,100 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import logo from "../../assets/images/logo.png";
+
+const navLinks = [
+  { label: "Home", href: "#" },
+  { label: "About", href: "#" },
+  {
+    label: "Courses",
+    href: "#",
+    children: ["Medical", "Engineering", "Paramedical", "Allied Courses"],
+  },
+  { label: "Study India", href: "#" },
+  { label: "Study Abroad", href: "#" },
+  { label: "Blog", href: "#" },
+];
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeLink, setActiveLink] = useState("Home");
+  const [openDropdown, setOpenDropdown] = useState(null);
 
-  const navLinks = ["Home", "About", "Courses","Study India", "Study Abroad", "Blog"];
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <>
-      {/* FLOATING NAVBAR */}
-      <div className="fixed top-5 left-0 w-full z-50 flex justify-center px-2 sm:px-4">
-        
-        <div className="w-full max-w-7xl bg-[var(--primary-light)] backdrop-blur-md rounded-full shadow-md px-4 sm:px-6 py-3 flex items-center justify-between">
-
+      {/* NAVBAR */}
+      <div className="fixed top-5 left-0 w-full z-50 flex justify-center px-3">
+        <div
+          className={`
+            w-full max-w-7xl rounded-full px-5 py-3 flex items-center justify-between
+            transition-all duration-300
+            ${
+              scrolled
+                ? "bg-white/90 backdrop-blur-md shadow-lg"
+                : "bg-[var(--primary-light)]/90 backdrop-blur-md shadow-md"
+            }
+          `}
+        >
           {/* LOGO */}
-          <div className="flex items-center">
-            <img
-              src={logo}
-              alt="medaac logo"
-              className="h-8 sm:h-9 md:h-10 w-auto object-contain"
-            />
-          </div>
+          <img
+            src={logo}
+            alt="logo"
+            className="h-9 w-auto object-contain"
+          />
 
-          {/* 🔥 MENU WITH UNDERLINE EFFECT */}
-          <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-base font-medium">
-            {navLinks.map((item, i) => (
-              <a
-                key={i}
-                href="#"
-                className="relative text-[var(--primary)] hover:text-[var(--secondary)] transition duration-300 group"
+          {/* DESKTOP MENU */}
+          <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
+            {navLinks.map((item) => (
+              <div
+                key={item.label}
+                className="relative group"
+                onMouseEnter={() =>
+                  item.children && setOpenDropdown(item.label)
+                }
+                onMouseLeave={() => setOpenDropdown(null)}
               >
-                {item}
+                <a
+                  href={item.href}
+                  onClick={() => setActiveLink(item.label)}
+                  className={`relative px-2 py-1 transition duration-300
+                  ${
+                    activeLink === item.label
+                      ? "text-[var(--primary)]"
+                      : "text-[var(--primary)] hover:text-[var(--secondary)]"
+                  }`}
+                >
+                  {item.label}
 
-                {/* 🔥 UNDERLINE */}
-                <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[var(--secondary)] transition-all duration-300 group-hover:w-full"></span>
-              </a>
+                  {/* underline */}
+                  <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[var(--secondary)] transition-all duration-300 group-hover:w-full"></span>
+                </a>
+
+                {/* DROPDOWN */}
+                {item.children && openDropdown === item.label && (
+                  <div className="absolute top-full left-0 mt-3 w-44 bg-white rounded-xl shadow-xl py-2">
+                    {item.children.map((child) => (
+                      <a
+                        key={child}
+                        href="#"
+                        className="block px-4 py-2 text-sm text-gray-600 hover:text-[var(--primary)] hover:bg-[var(--primary-light)] transition"
+                      >
+                        {child}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
           </nav>
 
-          {/* BUTTON */}
+          {/* CTA */}
           <div className="hidden md:block">
             <a
               href="#"
@@ -48,41 +104,44 @@ function Navbar() {
             </a>
           </div>
 
-          {/* MOBILE */}
-          <div className="md:hidden">
-            <button onClick={() => setMenuOpen(true)}>
-              <span className="text-2xl text-[var(--primary)]">☰</span>
-            </button>
-          </div>
+          {/* MOBILE BUTTON */}
+          <button
+            onClick={() => setMenuOpen(true)}
+            className="md:hidden text-[var(--primary)]"
+          >
+            <Menu size={24} />
+          </button>
         </div>
       </div>
 
       {/* MOBILE MENU */}
       <div
-        className={`fixed top-0 right-0 h-full w-[80%] max-w-sm bg-white shadow-lg transform transition-transform duration-300 z-50 ${
+        className={`fixed top-0 right-0 h-full w-[80%] max-w-sm bg-white shadow-xl transform transition-transform duration-300 z-50 ${
           menuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex justify-end p-4">
+        <div className="flex justify-between items-center p-4 border-b">
+          <img src={logo} className="h-8" />
           <button onClick={() => setMenuOpen(false)}>
-            <span className="text-2xl">✕</span>
+            <X size={22} />
           </button>
         </div>
 
-        <div className="flex flex-col gap-6 px-6 text-base font-medium">
-          {navLinks.map((item, i) => (
+        <div className="flex flex-col gap-4 p-6">
+          {navLinks.map((item) => (
             <a
-              key={i}
+              key={item.label}
               href="#"
-              className="text-[var(--primary)] hover:text-[var(--secondary)]"
+              onClick={() => setMenuOpen(false)}
+              className="text-[var(--primary)] text-base font-medium hover:text-[var(--secondary)]"
             >
-              {item}
+              {item.label}
             </a>
           ))}
 
           <a
             href="#"
-            className="mt-4 bg-[var(--secondary)] text-white text-center py-3 rounded-md"
+            className="mt-4 bg-[var(--secondary)] text-white text-center py-3 rounded-full"
           >
             Contact Us
           </a>
@@ -94,7 +153,7 @@ function Navbar() {
         <div
           className="fixed inset-0 bg-black/30 z-40"
           onClick={() => setMenuOpen(false)}
-        ></div>
+        />
       )}
     </>
   );

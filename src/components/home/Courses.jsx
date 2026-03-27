@@ -14,26 +14,36 @@ const courses = [
     title: "MBBS",
     desc: "Pursue MBBS in top international universities with affordable fees and global exposure.",
     image: img1,
+    duration: "5.5 Years",
+    countries: "12 Countries",
   },
   {
     title: "BDS",
     desc: "Build a career in dental sciences with modern clinical training and global recognition.",
     image: img2,
+    duration: "5 Years",
+    countries: "8 Countries",
   },
   {
     title: "B.Sc Nursing",
     desc: "Internationally accepted nursing programs with strong career opportunities.",
     image: img3,
+    duration: "4 Years",
+    countries: "6 Countries",
   },
   {
     title: "BHMS",
     desc: "Professional degree in homeopathy focused on holistic and alternative medicine.",
     image: img4,
+    duration: "5.5 Years",
+    countries: "5 Countries",
   },
   {
     title: "BAMS",
     desc: "Study Ayurveda with structured programs combining traditional knowledge and modern science.",
     image: img5,
+    duration: "5.5 Years",
+    countries: "4 Countries",
   },
 ];
 
@@ -47,7 +57,6 @@ function Courses() {
 
         {/* HEADER */}
         <div className="flex justify-between items-center mb-14">
-
           <div>
             <h2 className="text-3xl md:text-4xl font-bold text-[var(--dark)]">
               Discover Trending Courses
@@ -55,106 +64,125 @@ function Courses() {
             <div className="mt-2 h-1 w-20 bg-[var(--secondary)] rounded-full"></div>
           </div>
 
-          {/* ARROWS */}
-          <div className="flex gap-3">
-
-            {/* LEFT */}
+          {/* ARROWS + VIEW ALL */}
+          <div className="flex items-center gap-3">
             <button
               onClick={() => swiperRef.current?.slidePrev()}
-              className={`
-                w-10 h-10 rounded-full border flex items-center justify-center transition
+              className={`w-10 h-10 rounded-full border flex items-center justify-center transition
                 ${activeIndex === 0
                   ? "border-gray-300 text-gray-300"
-                  : "border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white"}
-              `}
+                  : "border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white"}`}
             >
               <ChevronLeft size={20} />
             </button>
 
-            {/* RIGHT */}
             <button
               onClick={() => swiperRef.current?.slideNext()}
-              className={`
-                w-10 h-10 rounded-full border flex items-center justify-center transition
+              className={`w-10 h-10 rounded-full border flex items-center justify-center transition
                 ${activeIndex === courses.length - 1
                   ? "border-gray-300 text-gray-300"
-                  : "border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white"}
-              `}
+                  : "border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white"}`}
             >
               <ChevronRight size={20} />
             </button>
 
+            {/* VIEW ALL */}
+            <button className="px-5 py-2 rounded-full border border-[var(--primary)] text-[var(--primary)] text-sm font-medium hover:bg-[var(--primary)] hover:text-white transition">
+              View All
+            </button>
           </div>
-
         </div>
 
-        {/* SLIDER */}
-        <Swiper
-          onSwiper={(swiper) => (swiperRef.current = swiper)}
-          onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
-          slidesPerView={1.3}
-          spaceBetween={16}
-          className="!overflow-visible"
-        >
-          {courses.map((course, index) => (
-            <SwiperSlide key={index}>
+        {/* SLIDER — overflow-hidden fixes the bleeding between slides */}
+        <div className="overflow-hidden">
+          <Swiper
+            onSwiper={(swiper) => (swiperRef.current = swiper)}
+            onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+            spaceBetween={20}
+            breakpoints={{
+              0: { slidesPerView: 1 },
+              640: { slidesPerView: 1.2 },
+              1024: { slidesPerView: 2 },
+            }}
+          >
+            {courses.map((course, index) => (
+              <SwiperSlide key={index}>
 
-              <div className="relative flex items-center py-6">
-
-                {/* CONTENT */}
-                <div className="
-                  bg-white 
-                  rounded-[32px] 
-                  ml-16 md:ml-30
-                  w-full 
-                  md:w-[700px] 
-                  h-[360px] 
-                  shadow-md 
-                  flex items-center 
-                  pl-28 md:pl-60
-                  pr-8 md:pr-12
-                ">
-                  <div className="max-w-md">
-
-                  <h3 className="text-xl md:text-2xl font-semibold text-[var(--primary)] mb-3">
-                    {course.title}
-                    </h3>
-
-                    <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-5">
-                      {course.desc}
-                    </p>
-
-                    <button className="bg-[var(--secondary)] text-white px-5 py-2 rounded-full text-sm hover:opacity-90 hover:scale-105 active:scale-95 transition">
-                             Learn More
-                    </button>
-
-                  </div>
-                </div>
-
-                {/* IMAGE */}
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 z-10">
-                  <div className="
-                    w-[190px] h-[200px] 
-                    sm:w-[240px] sm:h-[240px] 
-                    md:w-[280px] md:h-[280px] 
-                    rounded-[32px] 
-                    overflow-hidden 
-                    shadow-xl 
-                    border-4 border-white
-                  ">
+                {/* MOBILE: top-to-bottom */}
+                <div className="block md:hidden bg-white rounded-[32px] shadow-md overflow-hidden">
+                  <div className="w-full h-52 overflow-hidden">
                     <img
                       src={course.image}
                       alt={course.title}
                       className="w-full h-full object-cover"
                     />
                   </div>
+                  <div className="px-6 py-5">
+                    <h3 className="text-xl font-semibold text-[var(--primary)] mb-2">
+                      {course.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                      {course.desc}
+                    </p>
+                    <div className="flex gap-3 mb-5 text-xs">
+                      <span className="bg-gray-100 px-3 py-1.5 rounded-full text-gray-600">
+                        ⏱ {course.duration}
+                      </span>
+                      <span className="bg-gray-100 px-3 py-1.5 rounded-full text-gray-600">
+                        🌍 {course.countries}
+                      </span>
+                    </div>
+                    <button className="bg-[var(--secondary)] text-white px-5 py-2 rounded-full text-sm hover:opacity-90 hover:scale-105 transition">
+                      Learn More
+                    </button>
+                  </div>
                 </div>
 
-              </div>
+                {/* DESKTOP: original overlapping image design */}
+                <div className="hidden md:block py-6 pl-6">
+                  <div className="relative flex items-center">
 
-            </SwiperSlide>
-          ))}
-        </Swiper>
+                    {/* IMAGE — absolutely positioned, contained within pl-6 slide */}
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 z-10">
+                      <div className="w-[220px] h-[220px] md:w-[260px] md:h-[260px] rounded-[32px] overflow-hidden shadow-xl border-4 border-white">
+                        <img
+                          src={course.image}
+                          alt={course.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </div>
+
+                    {/* CONTENT CARD — left padding makes room for the overlapping image */}
+                    <div className="bg-white rounded-[32px] w-full h-[320px] md:h-[360px] shadow-md flex items-center pl-[180px] md:pl-[220px] pr-8 md:pr-12 ml-[110px] md:ml-[130px]">
+                      <div className="max-w-md">
+                        <h3 className="text-xl md:text-2xl font-semibold text-[var(--primary)] mb-3">
+                          {course.title}
+                        </h3>
+                        <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-4">
+                          {course.desc}
+                        </p>
+                        <div className="flex gap-3 mb-5 text-xs">
+                          <span className="bg-gray-100 px-3 py-1.5 rounded-full text-gray-600">
+                            ⏱ {course.duration}
+                          </span>
+                          <span className="bg-gray-100 px-3 py-1.5 rounded-full text-gray-600">
+                            🌍 {course.countries}
+                          </span>
+                        </div>
+                        <button className="bg-[var(--secondary)] text-white px-5 py-2 rounded-full text-sm hover:opacity-90 hover:scale-105 transition">
+                          Learn More
+                        </button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
 
       </div>
     </section>

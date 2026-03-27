@@ -1,18 +1,26 @@
 import { motion } from "framer-motion";
 import heroImg from "../../assets/images/hero.avif";
+import { Search, ArrowRight } from "lucide-react";
 
 function Hero() {
   return (
     <section className="relative min-h-screen flex items-center pt-28 pb-16 px-4 sm:px-6 overflow-hidden">
 
-      {/* BACKGROUND */}
+      {/* 🔥 STRONG BASE GRADIENT */}
       <div className="absolute inset-0 
-        bg-gradient-to-r from-[var(--primary-light)] via-white to-[var(--primary-light)]" />
+        bg-gradient-to-br 
+        from-[var(--primary-light)] via-[#f8fafc] to-[var(--secondary-light)]" />
 
-      {/* FOG */}
-      <div className="absolute top-20 left-[-50px] w-80 sm:w-96 h-80 sm:h-96 bg-[var(--primary)] opacity-20 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-10 right-[-50px] w-80 sm:w-96 h-80 sm:h-96 bg-[var(--secondary)] opacity-20 rounded-full blur-3xl"></div>
-      <div className="absolute top-40 right-20 w-60 h-60 bg-[var(--secondary)] opacity-10 rounded-full blur-3xl"></div>
+      {/* 🔥 BIG COLOR BLOBS */}
+      <div className="absolute -top-32 -left-32 w-[500px] h-[500px] 
+        bg-[var(--primary)] opacity-30 rounded-full blur-[140px]" />
+
+      <div className="absolute -bottom-32 -right-32 w-[500px] h-[500px] 
+        bg-[var(--secondary)] opacity-30 rounded-full blur-[140px]" />
+
+      {/* 🔥 CENTER LIGHT */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
+        w-[400px] h-[400px] bg-[var(--primary)] opacity-10 rounded-full blur-[120px]" />
 
       <div className="relative max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center">
 
@@ -24,12 +32,10 @@ function Hero() {
           className="space-y-6 text-center md:text-left"
         >
 
-          {/* 🔥 CLEAN HEADING */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-[var(--dark)]">
-            Start Your Journey with{" "}
-            <span className="text-[var(--primary)]">
-              MBBS Abroad
-            </span>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight 
+              bg-gradient-to-r from-[var(--primary)] via-[var(--secondary)] to-[var(--primary)] 
+              bg-clip-text text-transparent">
+              Start Your Journey with MBBS Abroad
           </h1>
 
           <p className="text-gray-600 text-sm sm:text-base md:text-lg max-w-xl mx-auto md:mx-0 leading-relaxed">
@@ -37,24 +43,19 @@ function Hero() {
             admission, visa, and everything in between.
           </p>
 
-          {/* SEARCH (SMOKY GLOW KEPT) */}
-          <div className="relative max-w-md sm:max-w-lg mx-auto md:mx-0">
-
-            <div className="absolute inset-0 rounded-full 
-              bg-[var(--secondary)] opacity-30 blur-lg">
-            </div>
-
-            <div className="relative flex items-center bg-white shadow-md rounded-full overflow-hidden">
+          {/* SEARCH */}
+          <div className="relative max-w-md mx-auto md:mx-0">
+            <div className="flex items-center bg-white border border-gray-200 shadow-sm hover:shadow-md rounded-2xl overflow-hidden transition-shadow duration-200">
+              <Search size={18} className="ml-4 text-gray-400 shrink-0" />
               <input
                 type="text"
-                placeholder="Search countries..."
-                className="flex-1 px-5 py-3 outline-none text-sm"
+                placeholder="Search country or course..."
+                className="flex-1 px-3 py-3.5 outline-none text-sm text-gray-700 placeholder-gray-400"
               />
-              <button className="bg-[var(--secondary)] text-white px-6 py-3">
-                🔍
+              <button className="m-1.5 bg-[var(--primary)] text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-[var(--primary-dark)] transition-colors flex items-center gap-1.5 shrink-0">
+                Search <ArrowRight size={14} />
               </button>
             </div>
-
           </div>
 
           {/* TRUST */}
