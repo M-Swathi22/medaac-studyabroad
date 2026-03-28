@@ -143,7 +143,7 @@ function Process() {
                   {steps[active].desc}
                 </p>
 
-                <button className="bg-[var(--primary)] text-white px-4 py-1.5 rounded-full text-xs hover:opacity-90 transition">
+                <button className="bg-[var(--secondary)] text-white px-4 py-1.5 rounded-full text-xs hover:opacity-90 transition">
                   Free Consultation
                 </button>
 
