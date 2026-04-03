@@ -5,6 +5,7 @@ import Countries from "./components/home/Countries";
 import AnimatedSection from "./components/AnimatedSection";
 import Process from "./components/home/Process";
 import WhyChooseUs from "./components/home/WhyChooseUs";
+import TopUniversities from "./components/home/TopUniversities";
 
 
 
@@ -29,6 +30,12 @@ function App() {
       <AnimatedSection>
         <WhyChooseUs />
       </AnimatedSection>
+
+       <AnimatedSection>
+        <TopUniversities />
+      </AnimatedSection>
+
+      
     </>
   );
 }

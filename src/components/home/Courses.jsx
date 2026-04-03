@@ -1,5 +1,8 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import "swiper/css/autoplay";
+
+import { Autoplay } from "swiper/modules";
 import { useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -86,29 +89,40 @@ function Courses() {
               <ChevronRight size={20} />
             </button>
 
-            {/* VIEW ALL */}
-            <button className="px-5 py-2 rounded-full border border-[var(--primary)] text-[var(--primary)] text-sm font-medium hover:bg-[var(--primary)] hover:text-white transition">
-              View All
-            </button>
+           <button className="px-5 py-2 rounded-full text-sm font-medium bg-[var(--secondary)] text-white border border-[var(--secondary)]hover:bg-transparent hover:text-[var(--secondary)] transition">
+                View All
+           </button>
           </div>
         </div>
 
-        {/* SLIDER — overflow-hidden fixes the bleeding between slides */}
+        {/* SLIDER */}
         <div className="overflow-hidden">
-          <Swiper
-            onSwiper={(swiper) => (swiperRef.current = swiper)}
-            onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
-            spaceBetween={20}
-            breakpoints={{
-              0: { slidesPerView: 1 },
-              640: { slidesPerView: 1.2 },
-              1024: { slidesPerView: 2 },
-            }}
-          >
+         <Swiper
+           modules={[Autoplay]}
+           onSwiper={(swiper) => (swiperRef.current = swiper)}
+           onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+
+           spaceBetween={20}
+           loop={true}
+
+           speed={1200} // 🔥 smoother continuous feel
+
+           autoplay={{
+           delay: 1200,              // 🔥 faster autoplay
+           disableOnInteraction: false,
+           pauseOnMouseEnter: true,
+        }}
+
+           breakpoints={{
+             0: { slidesPerView: 1 },
+             640: { slidesPerView: 1.2 },
+             1024: { slidesPerView: 2 },
+        }}
+     >
             {courses.map((course, index) => (
               <SwiperSlide key={index}>
 
-                {/* MOBILE: top-to-bottom */}
+                {/* MOBILE */}
                 <div className="block md:hidden bg-white rounded-[32px] shadow-md overflow-hidden">
                   <div className="w-full h-52 overflow-hidden">
                     <img
@@ -138,11 +152,10 @@ function Courses() {
                   </div>
                 </div>
 
-                {/* DESKTOP: original overlapping image design */}
+                {/* DESKTOP */}
                 <div className="hidden md:block py-6 pl-6">
                   <div className="relative flex items-center">
 
-                    {/* IMAGE — absolutely positioned, contained within pl-6 slide */}
                     <div className="absolute left-0 top-1/2 -translate-y-1/2 z-10">
                       <div className="w-[220px] h-[220px] md:w-[260px] md:h-[260px] rounded-[32px] overflow-hidden shadow-xl border-4 border-white">
                         <img
@@ -153,7 +166,6 @@ function Courses() {
                       </div>
                     </div>
 
-                    {/* CONTENT CARD — left padding makes room for the overlapping image */}
                     <div className="bg-white rounded-[32px] w-full h-[320px] md:h-[360px] shadow-md flex items-center pl-[180px] md:pl-[220px] pr-8 md:pr-12 ml-[110px] md:ml-[130px]">
                       <div className="max-w-md">
                         <h3 className="text-xl md:text-2xl font-semibold text-[var(--primary)] mb-3">
