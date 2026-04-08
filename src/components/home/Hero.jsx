@@ -80,27 +80,8 @@ const fadeUp = (delay = 0) => ({
         {/* ════ LEFT ════ */}
         <div className="flex flex-col justify-center gap-6">
 
-          {/* badge */}
-          <motion.div {...fadeUp(0)}>
-            <span
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
-              style={{
-                background: "rgba(10,114,122,0.12)",
-                border: "1px solid rgba(10,114,122,0.30)",
-              }}
-            >
-              <span
-                className="w-2 h-2 rounded-full shrink-0 animate-pulse"
-                style={{ background: SECONDARY }}
-              />
-              <span
-                className="text-[11px] font-bold tracking-[0.13em] uppercase"
-                style={{ color: "#9fd8dd" }}
-              >
-                Admissions Open — 2024–25
-              </span>
-            </span>
-          </motion.div>
+   
+          
 
           {/* headline */}
           <motion.h1
@@ -391,4 +372,4 @@ const fadeUp = (delay = 0) => ({
     </section>
   );
 }
-export default Hero;    
+export default Hero;

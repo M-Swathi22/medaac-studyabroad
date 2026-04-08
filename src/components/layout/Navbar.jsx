@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import logo from "../../assets/images/logo.png";
 
 const navLinks = [
@@ -8,10 +8,19 @@ const navLinks = [
   {
     label: "Courses",
     href: "#",
-    children: ["Medical", "Engineering", "Paramedical", "Allied Courses"],
+    children: ["MBBS", "Nursing", "Paramedical"],
   },
-  { label: "Study India", href: "#" },
-  { label: "Study Abroad", href: "#" },
+  {
+    label: "Study India",
+    href: "#",
+    children: ["Tamil Nadu", "Kerala", "Karnataka", "Andhra"],
+  },
+  { label: "Study Abroad", href: "#" }, // NO dropdown
+  {
+    label: "MBBS Abroad",
+    href: "#",
+    children: ["Georgia", "Tajikistan", "Uzbekistan"],
+  },
   { label: "Blog", href: "#" },
 ];
 
@@ -43,11 +52,7 @@ function Navbar() {
           `}
         >
           {/* LOGO */}
-          <img
-            src={logo}
-            alt="logo"
-            className="h-9 w-auto object-contain"
-          />
+          <img src={logo} alt="logo" className="h-9 w-auto object-contain" />
 
           {/* DESKTOP MENU */}
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
@@ -72,20 +77,23 @@ function Navbar() {
                 >
                   {item.label}
 
-                  {/* underline */}
+                  {/* underline ONLY on hover */}
                   <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[var(--secondary)] transition-all duration-300 group-hover:w-full"></span>
                 </a>
 
-                {/* DROPDOWN */}
+                {/* DROPDOWN (only if children exists) */}
                 {item.children && openDropdown === item.label && (
-                  <div className="absolute top-full left-0 mt-3 w-44 bg-white rounded-xl shadow-xl py-2">
+                  <div className="absolute top-full left-0 mt-3 w-48 bg-white rounded-xl shadow-lg py-2">
                     {item.children.map((child) => (
                       <a
                         key={child}
                         href="#"
-                        className="block px-4 py-2 text-sm text-gray-600 hover:text-[var(--primary)] hover:bg-[var(--primary-light)] transition"
+                        className="relative block px-4 py-2 text-sm text-[var(--primary)] hover:text-[var(--secondary)] whitespace-nowrap"
                       >
                         {child}
+
+                        {/* underline on hover */}
+                        <span className="absolute left-4 right-4 bottom-1 w-0 h-[2px] bg-[var(--secondary)] transition-all duration-300 hover:w-[calc(100%-2rem)]"></span>
                       </a>
                     ))}
                   </div>
@@ -129,14 +137,26 @@ function Navbar() {
 
         <div className="flex flex-col gap-4 p-6">
           {navLinks.map((item) => (
-            <a
-              key={item.label}
-              href="#"
-              onClick={() => setMenuOpen(false)}
-              className="text-[var(--primary)] text-base font-medium hover:text-[var(--secondary)]"
-            >
-              {item.label}
-            </a>
+            <div key={item.label}>
+              <p className="text-[var(--primary)] text-base font-medium">
+                {item.label}
+              </p>
+
+              {item.children && (
+                <div className="ml-4 mt-2 flex flex-col gap-2">
+                  {item.children.map((child) => (
+                    <a
+                      key={child}
+                      href="#"
+                      onClick={() => setMenuOpen(false)}
+                      className="text-sm text-[var(--primary)] hover:text-[var(--secondary)] whitespace-nowrap"
+                    >
+                      {child}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
           ))}
 
           <a

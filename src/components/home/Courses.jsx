@@ -108,7 +108,7 @@ function Courses() {
            speed={1200} // 🔥 smoother continuous feel
 
            autoplay={{
-           delay: 1200,              // 🔥 faster autoplay
+           delay: 0,              // 🔥 faster autoplay
            disableOnInteraction: false,
            pauseOnMouseEnter: true,
         }}
