@@ -32,28 +32,25 @@ const steps = [
   },
 ];
 
-const STEP_DURATION = 3000; // slightly faster per step
+const STEP_DURATION = 3000;
 
 function Process() {
   const [active, setActive] = useState(0);
   const containerRef = useRef(null);
   const [containerHeight, setContainerHeight] = useState(0);
 
-  // planePx is driven purely by rAF — stored in a ref to avoid re-renders
   const planePxRef = useRef(0);
   const planeElRef = useRef(null);
   const lineElRef = useRef(null);
 
   const rafRef = useRef(null);
   const startTimeRef = useRef(null);
-  const activeRef = useRef(0); // shadow of `active` for rAF closure
+  const activeRef = useRef(0);
 
-  // Keep activeRef in sync
   useEffect(() => {
     activeRef.current = active;
   }, [active]);
 
-  // Measure container height
   useEffect(() => {
     const measure = () => {
       if (containerRef.current) {
@@ -65,7 +62,6 @@ function Process() {
     return () => window.removeEventListener("resize", measure);
   }, []);
 
-  // rAF animation loop — runs whenever active or containerHeight changes
   useEffect(() => {
     if (containerHeight === 0) return;
 
@@ -76,15 +72,14 @@ function Process() {
 
     const tick = (now) => {
       const elapsed = now - startTimeRef.current;
-      const t = Math.min(elapsed / STEP_DURATION, 1); // 0 → 1
+      const t = Math.min(elapsed / STEP_DURATION, 1);
 
       const currentStep = activeRef.current;
-      const rawPct = (currentStep + t) * stepPercent; // 0 → 1
+      const rawPct = (currentStep + t) * stepPercent;
       const px = rawPct * containerHeight;
 
       planePxRef.current = px;
 
-      // Directly mutate DOM — no setState, no re-render
       if (planeElRef.current) {
         planeElRef.current.style.transform = `translateY(${px - 12}px)`;
       }
@@ -95,7 +90,6 @@ function Process() {
       if (t < 1) {
         rafRef.current = requestAnimationFrame(tick);
       } else {
-        // Advance to next step
         const next = (currentStep + 1) % steps.length;
         setActive(next);
       }
@@ -113,11 +107,83 @@ function Process() {
   return (
     <section className="relative py-16 md:py-24 overflow-hidden">
 
-      {/* BACKGROUND */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary-light)] via-white to-[var(--secondary)/20] animate-[gradientMove_10s_ease-in-out_infinite]" />
-      <div className="absolute -top-32 -left-32 w-[300px] md:w-[400px] h-[300px] md:h-[400px] bg-[var(--primary)] opacity-30 rounded-full blur-3xl animate-[float1_12s_ease-in-out_infinite]" />
-      <div className="absolute bottom-[-80px] md:bottom-[-100px] right-[-60px] md:right-[-80px] w-[250px] md:w-[350px] h-[250px] md:h-[350px] bg-[var(--secondary)] opacity-30 rounded-full blur-3xl animate-[float2_14s_ease-in-out_infinite]" />
+      {/* ===== TRANSITION FROM COUNTRIES (IMPORTANT FIX) ===== */}
+      <div
+        className="absolute top-0 left-0 w-full h-40 pointer-events-none"
+        style={{
+          background: `
+            linear-gradient(
+              to bottom,
+              var(--primary) 0%,
+              color-mix(in srgb, var(--primary) 40%, transparent) 40%,
+              transparent 100%
+            )
+          `,
+          opacity: 0.25,
+        }}
+      />
 
+      {/* ===== MAIN LIGHT BACKGROUND (RESET SECTION) ===== */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `
+            linear-gradient(
+              180deg,
+              #ffffff 0%,
+              var(--primary-light) 35%,
+              #ffffff 100%
+            )
+          `,
+        }}
+      />
+
+      {/* ===== SUBTLE MESH OVERLAY ===== */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `
+            linear-gradient(
+              140deg,
+              color-mix(in srgb, var(--primary) 3%, transparent) 0%,
+              transparent 40%,
+              color-mix(in srgb, var(--secondary) 4%, transparent) 100%
+            )
+          `,
+        }}
+      />
+
+      {/* ===== CONTROLLED GLOW ===== */}
+      <div
+        className="absolute -top-20 -left-20 w-[260px] h-[260px] rounded-full blur-3xl"
+        style={{
+          background:
+            "radial-gradient(circle, color-mix(in srgb, var(--primary) 12%, transparent) 0%, transparent 70%)",
+          opacity: 0.25,
+        }}
+      />
+
+      <div
+        className="absolute bottom-[-80px] right-[-60px] w-[240px] h-[240px] rounded-full blur-3xl"
+        style={{
+          background:
+            "radial-gradient(circle, color-mix(in srgb, var(--secondary) 14%, transparent) 0%, transparent 70%)",
+          opacity: 0.25,
+        }}
+      />
+
+      {/* ===== LIGHT DOT GRID ===== */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "radial-gradient(color-mix(in srgb, var(--primary) 10%, transparent) 1px, transparent 1px)",
+          backgroundSize: "28px 28px",
+          opacity: 0.04,
+        }}
+      />
+
+      {/* ===== CONTENT ===== */}
       <div className="relative max-w-7xl mx-auto px-4 md:px-6">
 
         {/* HEADER */}
@@ -136,10 +202,8 @@ function Process() {
           <div className="relative pl-10 md:pl-12">
             <div ref={containerRef} className="relative">
 
-              {/* STATIC TRACK */}
               <div className="absolute left-[-24px] md:left-[-28px] top-0 bottom-0 w-[2px] bg-gray-200 rounded-full" />
 
-              {/* SVG DOTTED PROGRESS LINE — mutated directly via ref */}
               {containerHeight > 0 && (
                 <svg
                   className="absolute overflow-visible pointer-events-none"
@@ -151,7 +215,7 @@ function Process() {
                     y1="0"
                     x2="2"
                     y2="0"
-                    stroke="var(--primary, #4f46e5)"
+                    stroke="var(--primary)"
                     strokeWidth="2.5"
                     strokeDasharray="5 7"
                     strokeLinecap="round"
@@ -159,28 +223,23 @@ function Process() {
                 </svg>
               )}
 
-              {/* PLANE — mutated directly via ref, no re-render */}
               {containerHeight > 0 && (
                 <div
                   ref={planeElRef}
                   className="absolute pointer-events-none z-20"
-                  style={{
-                    left: "-36px",
-                    top: 0,
-                    willChange: "transform",
-                  }}
+                  style={{ left: "-36px", top: 0 }}
                 >
                   <div
                     style={{
                       width: "24px",
                       height: "24px",
                       borderRadius: "50%",
-                      background: "var(--primary, #4f46e5)",
+                      background: "var(--primary)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       fontSize: "11px",
-                      boxShadow: "0 0 0 3px rgba(79,70,229,0.15)",
+                      boxShadow: "0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent)",
                       transform: "rotate(90deg)",
                     }}
                   >
@@ -189,16 +248,14 @@ function Process() {
                 </div>
               )}
 
-              {/* STEPS */}
               {steps.map((step, index) => (
                 <div
                   key={step.id}
                   onClick={() => handleClick(index)}
                   className="relative mb-6 md:mb-8 last:mb-0 cursor-pointer"
                 >
-                  {/* DOT */}
                   <div
-                    className="absolute z-10 transition-all duration-300"
+                    className="absolute z-10"
                     style={{
                       left: "-30px",
                       top: "12px",
@@ -207,30 +264,29 @@ function Process() {
                       borderRadius: "50%",
                       border: `2px solid ${
                         active === index || index < active
-                          ? "var(--primary, #4f46e5)"
+                          ? "var(--primary)"
                           : "#d1d5db"
                       }`,
                       background:
                         active === index || index < active
-                          ? "var(--primary, #4f46e5)"
+                          ? "var(--primary)"
                           : "#fff",
                     }}
                   />
 
-                  {/* CARD */}
                   <div
-                    className="rounded-lg p-3 md:p-4 transition-all duration-300"
+                    className="rounded-lg p-3 md:p-4"
                     style={{
                       background: "#fff",
                       border:
                         active === index
-                          ? "1px solid var(--primary, #4f46e5)"
+                          ? "1px solid var(--primary)"
                           : "1px solid #e5e7eb",
                       boxShadow:
                         active === index
-                          ? "0 4px 20px rgba(79,70,229,0.1)"
-                          : "none",
-                      opacity: active === index ? 1 : 0.8,
+                          ? "0 6px 24px color-mix(in srgb, var(--primary) 18%, transparent)"
+                          : "0 2px 10px rgba(0,0,0,0.04)",
+                      opacity: active === index ? 1 : 0.85,
                     }}
                   >
                     <div className="flex items-center gap-2 mb-1">
@@ -239,7 +295,7 @@ function Process() {
                         style={{
                           background:
                             active === index
-                              ? "var(--primary, #4f46e5)"
+                              ? "var(--primary)"
                               : "#f3f4f6",
                           color: active === index ? "#fff" : "#9ca3af",
                         }}
@@ -250,7 +306,7 @@ function Process() {
                         {step.title}
                       </h3>
                     </div>
-                    <p className="text-[11px] md:text-xs text-gray-600 leading-relaxed">
+                    <p className="text-[11px] md:text-xs text-gray-600">
                       {step.desc}
                     </p>
                   </div>
@@ -279,7 +335,7 @@ function Process() {
                 <p className="text-[11px] md:text-xs text-gray-600 mb-2 md:mb-3">
                   {steps[active].desc}
                 </p>
-                <button className="bg-[var(--secondary)] text-white px-3 py-1 md:px-4 md:py-1.5 rounded-full text-[11px] md:text-xs">
+                <button className="bg-[var(--secondary)] text-white px-3 py-1 md:px-4 md:py-1.5 rounded-full text-[11px] md:text-xs hover:opacity-90">
                   Free Consultation
                 </button>
               </div>
@@ -289,21 +345,6 @@ function Process() {
 
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes float1 {
-          0%, 100% { transform: translate(0, 0); }
-          50% { transform: translate(30px, 40px); }
-        }
-        @keyframes float2 {
-          0%, 100% { transform: translate(0, 0); }
-          50% { transform: translate(-40px, -30px); }
-        }
-        @keyframes gradientMove {
-          0%, 100% { filter: hue-rotate(0deg); }
-          50% { filter: hue-rotate(15deg); }
-        }
-      `}</style>
     </section>
   );
 }

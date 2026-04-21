@@ -69,7 +69,7 @@ function Stars({ count, size = 11 }) {
   return (
     <div style={{ display: "flex", gap: 2, justifyContent: "center" }}>
       {[...Array(count)].map((_, i) => (
-        <svg key={i} width={size} height={size} viewBox="0 0 24 24" fill="var(--secondary)">
+        <svg key={i} width={size} height={size} viewBox="0 0 24 24" fill="#E10A6F">
           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
         </svg>
       ))}
@@ -129,7 +129,7 @@ function Station({ item, index }) {
           <b style={{ fontSize: 12, color: "var(--dark)", marginTop: 2 }}>{item.name}</b>
           <span style={{
             fontSize: 10, color: "var(--primary)",
-            background: "rgba(10,114,122,0.08)",
+            background: "rgba(225,10,111,0.08)",
             padding: "2px 8px", borderRadius: 99,
           }}>
             {item.role}
@@ -188,7 +188,7 @@ function MobileStation({ item, index }) {
           <b style={{ fontSize: 10.5, color: "var(--dark)", marginTop: 1 }}>{item.name}</b>
           <span style={{
             fontSize: 9, color: "var(--primary)",
-            background: "rgba(10,114,122,0.08)",
+            background: "rgba(225,10,111,0.08)",
             padding: "1px 7px", borderRadius: 99,
           }}>
             {item.role}
@@ -309,6 +309,159 @@ function MobileSlider({ items }) {
   );
 }
 
+// ── CircleImage: two-color glow rings + rotating border + centered white badge ──
+function CircleImage({
+  size,
+  badgeBottom,
+  tagFontSize,
+  tagPaddingV,
+  tagPaddingH,
+  badgeFontSize,
+  badgeStarSize,
+  badgeGap,
+  badgePadX,
+  badgePadY,
+  tagLeft,
+  tagRight,
+  tagTop,
+}) {
+  return (
+    <div style={{ position: "relative", width: size, height: size, flexShrink: 0 }}>
+
+      {/* ── Outer pulsing glow — deep pink ── */}
+      <motion.div
+        animate={{ scale: [1, 1.20, 1], opacity: [0.28, 0.06, 0.28] }}
+        transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+        style={{
+          position: "absolute",
+          inset: -26,
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(225,10,111,0.55) 0%, transparent 68%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* ── Middle pulsing glow — blush/light-pink (second color) ── */}
+      <motion.div
+        animate={{ scale: [1, 1.14, 1], opacity: [0.60, 0.18, 0.60] }}
+        transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", delay: 0.7 }}
+        style={{
+          position: "absolute",
+          inset: -14,
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(253,230,240,1) 0%, rgba(225,10,111,0.30) 45%, transparent 68%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* ── Inner tight glow — deep pink again for contrast ── */}
+      <motion.div
+        animate={{ scale: [1, 1.07, 1], opacity: [0.18, 0.04, 0.18] }}
+        transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", delay: 1.3 }}
+        style={{
+          position: "absolute",
+          inset: -5,
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(185,9,88,0.45) 0%, transparent 65%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* ── Rotating conic border: deep pink ↔ soft blush — clearly two colors ── */}
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+        style={{
+          position: "absolute", inset: 0, borderRadius: "50%",
+          background:
+            "conic-gradient(#E10A6F 0deg, #E10A6F 55deg, #FDE6F0 85deg, #FDE6F0 145deg, #E10A6F 175deg, #E10A6F 235deg, #FDE6F0 265deg, #FDE6F0 325deg, #E10A6F 360deg)",
+        }}
+      />
+
+      {/* inner gap */}
+      <div style={{ position: "absolute", inset: 4, borderRadius: "50%", background: "var(--primary-light)" }} />
+
+      {/* photo */}
+      <img
+        src={heroImg}
+        alt="Students"
+        style={{
+          position: "absolute", inset: 8, borderRadius: "50%",
+          objectFit: "cover", objectPosition: "center top",
+          width: "calc(100% - 16px)", height: "calc(100% - 16px)",
+        }}
+      />
+
+      {/* ── 4.9 badge: WHITE pill, CENTERED, gold star + dark text ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.4 }}
+        style={{
+          position: "absolute",
+          bottom: badgeBottom,
+          left: "50%",
+          transform: "translateX(-50%)",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: badgeGap,
+          padding: `${badgePadY}px ${badgePadX}px`,
+          borderRadius: 999,
+          background: "white",
+          boxShadow: "0 4px 20px rgba(225,10,111,0.16), 0 2px 8px rgba(0,0,0,0.10)",
+          border: "1.5px solid rgba(225,10,111,0.10)",
+          whiteSpace: "nowrap",
+          fontFamily: "var(--font-main)",
+        }}
+      >
+        {/* gold star — matches screenshot */}
+        <svg width={badgeStarSize} height={badgeStarSize} viewBox="0 0 24 24" fill="#F7941D">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+        </svg>
+        <span style={{ fontSize: badgeFontSize, fontWeight: 800, color: "var(--dark)" }}>4.9</span>
+        <span style={{ fontSize: badgeFontSize - 3, color: "var(--gray)" }}>· 2K+ Reviews</span>
+      </motion.div>
+
+      {/* ── Left tag: 5000+ Admissions ── */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.75 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.5 }}
+        style={{
+          position: "absolute", top: tagTop, left: tagLeft,
+          background: "var(--primary)", borderRadius: 7,
+          padding: `${tagPaddingV}px ${tagPaddingH}px`,
+          fontFamily: "var(--font-main)",
+          fontSize: tagFontSize, fontWeight: 700, color: "white",
+          whiteSpace: "nowrap", boxShadow: "0 3px 12px rgba(225,10,111,0.28)",
+        }}
+      >
+        5000+ Admissions
+      </motion.div>
+
+      {/* ── Right tag: 15+ Countries ── */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.75 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.62 }}
+        style={{
+          position: "absolute", top: tagTop, right: tagRight,
+          background: "var(--primary)", borderRadius: 7,
+          padding: `${tagPaddingV}px ${tagPaddingH}px`,
+          fontFamily: "var(--font-main)",
+          fontSize: tagFontSize, fontWeight: 700, color: "white",
+          whiteSpace: "nowrap", boxShadow: "0 3px 12px rgba(225,10,111,0.28)",
+        }}
+      >
+        15+ Countries
+      </motion.div>
+    </div>
+  );
+}
+
 function Testimonials() {
   return (
     <section
@@ -319,12 +472,12 @@ function Testimonials() {
       <div style={{
         position: "absolute", top: -100, right: -100,
         width: 400, height: 400, borderRadius: "50%", pointerEvents: "none",
-        background: "radial-gradient(circle, rgba(10,114,122,0.07) 0%, transparent 70%)",
+        background: "radial-gradient(circle, rgba(225,10,111,0.07) 0%, transparent 70%)",
       }} />
       <div style={{
         position: "absolute", bottom: -100, left: -100,
         width: 360, height: 360, borderRadius: "50%", pointerEvents: "none",
-        background: "radial-gradient(circle, rgba(247,148,29,0.06) 0%, transparent 70%)",
+        background: "radial-gradient(circle, rgba(185,9,88,0.06) 0%, transparent 70%)",
       }} />
 
       <div className="max-w-7xl mx-auto px-5 sm:px-10 lg:px-16 xl:px-24 relative z-10">
@@ -334,12 +487,12 @@ function Testimonials() {
           <span style={{
             display: "inline-flex", alignItems: "center", gap: 6,
             fontSize: 11, fontWeight: 700, letterSpacing: "0.14em",
-            textTransform: "uppercase", color: "var(--secondary)",
+            textTransform: "uppercase", color: "var(--primary)",
             fontFamily: "var(--font-main)", marginBottom: 10,
           }}>
-            <span style={{ display: "inline-block", width: 18, height: 2, background: "var(--secondary)", borderRadius: 99 }} />
+            <span style={{ display: "inline-block", width: 18, height: 2, background: "var(--primary)", borderRadius: 99 }} />
             Student Stories
-            <span style={{ display: "inline-block", width: 18, height: 2, background: "var(--secondary)", borderRadius: 99 }} />
+            <span style={{ display: "inline-block", width: 18, height: 2, background: "var(--primary)", borderRadius: 99 }} />
           </span>
 
           <h2 style={{
@@ -348,101 +501,45 @@ function Testimonials() {
             fontFamily: "var(--font-main)", margin: 0,
           }}>
             What Our{" "}
-            <span style={{ color: "var(--primary)", borderBottom: "3px solid var(--secondary)", paddingBottom: 2 }}>
+            <span style={{ color: "var(--primary)", borderBottom: "3px solid var(--primary-dark)", paddingBottom: 2 }}>
               Students Say
             </span>
           </h2>
 
           <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 14 }}>
-            <div style={{ height: 4, width: 52, borderRadius: 99, background: "var(--secondary)" }} />
-            <div style={{ height: 4, width: 20, borderRadius: 99, background: "var(--primary)" }} />
-            <div style={{ height: 4, width: 8, borderRadius: 99, background: "var(--secondary)", opacity: 0.4 }} />
+            <div style={{ height: 4, width: 52, borderRadius: 99, background: "var(--primary)" }} />
+            <div style={{ height: 4, width: 20, borderRadius: 99, background: "var(--primary-dark)" }} />
+            <div style={{ height: 4, width: 8, borderRadius: 99, background: "var(--primary)", opacity: 0.4 }} />
           </div>
         </div>
 
         {/* ── MOBILE LAYOUT ── */}
         <div className="flex md:hidden flex-col items-center gap-6">
 
-          {/* IMAGE — fixed bottom clipping with extra margin */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            style={{
-              position: "relative",
-              width: 180, height: 180,
-              flexShrink: 0,
-              marginBottom: 28, /* ← room for the bottom badge */
-            }}
+            style={{ marginBottom: 28 }}
           >
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-              style={{
-                position: "absolute", inset: 0, borderRadius: "50%",
-                background: "conic-gradient(var(--primary) 0deg, var(--secondary) 120deg, var(--primary) 240deg, var(--secondary) 360deg)",
-              }}
+            <CircleImage
+              size={180}
+              badgeBottom={-18}
+              tagFontSize={9}
+              tagPaddingV={4}
+              tagPaddingH={9}
+              badgeFontSize={12}
+              badgeStarSize={11}
+              badgeGap={4}
+              badgePadX={12}
+              badgePadY={5}
+              tagLeft={-6}
+              tagRight={-6}
+              tagTop={8}
             />
-            <div style={{ position: "absolute", inset: 4, borderRadius: "50%", background: "var(--primary-light)" }} />
-            <img src={heroImg} alt="Students" style={{
-              position: "absolute", inset: 8, borderRadius: "50%",
-              objectFit: "cover", objectPosition: "center top",
-              width: "calc(100% - 16px)", height: "calc(100% - 16px)",
-            }} />
-
-            {/* badge — same as original */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
-              style={{
-                position: "absolute", bottom: -18, left: "50%",
-                transform: "translateX(-50%)",
-                display: "inline-flex", alignItems: "center", gap: 4,
-                padding: "5px 12px", borderRadius: 999,
-                background: "white",
-                boxShadow: "0 4px 18px rgba(10,114,122,0.18)",
-                border: "1px solid rgba(10,114,122,0.13)",
-                whiteSpace: "nowrap", fontFamily: "var(--font-main)",
-              }}
-            >
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="var(--secondary)">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-              </svg>
-              <span style={{ fontSize: 12, fontWeight: 800, color: "var(--dark)" }}>4.9</span>
-              <span style={{ fontSize: 9, color: "var(--gray)" }}>· 2K+ Reviews</span>
-            </motion.div>
-
-            {/* left tag — pulled in slightly so it doesn't overflow on narrow screens */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.75 }} whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }} transition={{ delay: 0.5 }}
-              style={{
-                position: "absolute", top: 8, left: -6,
-                background: "var(--primary)", borderRadius: 7,
-                padding: "4px 9px", fontFamily: "var(--font-main)",
-                fontSize: 9, fontWeight: 700, color: "white",
-                whiteSpace: "nowrap", boxShadow: "0 3px 12px rgba(10,114,122,0.28)",
-              }}
-            >5000+ Admissions</motion.div>
-
-            {/* right tag */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.75 }} whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }} transition={{ delay: 0.62 }}
-              style={{
-                position: "absolute", top: 8, right: -6,
-                background: "var(--secondary)", borderRadius: 7,
-                padding: "4px 9px", fontFamily: "var(--font-main)",
-                fontSize: 9, fontWeight: 700, color: "white",
-                whiteSpace: "nowrap", boxShadow: "0 3px 12px rgba(247,148,29,0.3)",
-              }}
-            >15+ Countries</motion.div>
           </motion.div>
 
-          {/* mobile slider */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -452,7 +549,6 @@ function Testimonials() {
           >
             <MobileSlider items={testimonials} />
 
-            {/* mobile stats — 2×2 grid, centered on narrow screens */}
             <div style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
@@ -482,7 +578,7 @@ function Testimonials() {
 
         </div>
 
-        {/* ── DESKTOP LAYOUT (COMPLETELY UNTOUCHED) ── */}
+        {/* ── DESKTOP LAYOUT ── */}
         <div className="hidden md:flex flex-row gap-10 lg:gap-16 items-center">
 
           <motion.div
@@ -490,83 +586,37 @@ function Testimonials() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            style={{
-              position: "relative", flexShrink: 0,
-              width: "clamp(240px,26vw,320px)",
-              height: "clamp(240px,26vw,320px)",
-            }}
+            style={{ position: "relative", flexShrink: 0 }}
           >
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-              style={{
-                position: "absolute", inset: 0, borderRadius: "50%",
-                background: "conic-gradient(var(--primary) 0deg, var(--secondary) 120deg, var(--primary) 240deg, var(--secondary) 360deg)",
-              }}
+            <CircleImage
+              size="clamp(240px,26vw,320px)"
+              badgeBottom={-22}
+              tagFontSize={10}
+              tagPaddingV={5}
+              tagPaddingH={11}
+              badgeFontSize={13}
+              badgeStarSize={12}
+              badgeGap={5}
+              badgePadX={14}
+              badgePadY={6}
+              tagLeft={-14}
+              tagRight={-18}
+              tagTop={12}
             />
-            <div style={{ position: "absolute", inset: 4, borderRadius: "50%", background: "var(--primary-light)" }} />
-            <img src={heroImg} alt="Students" style={{
-              position: "absolute", inset: 8, borderRadius: "50%",
-              objectFit: "cover", objectPosition: "center top",
-              width: "calc(100% - 16px)", height: "calc(100% - 16px)",
-            }} />
 
-            <motion.div
-              initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }} transition={{ delay: 0.4, duration: 0.5 }}
-              style={{
-                position: "absolute", bottom: -22, left: "50%",
-                transform: "translateX(-50%)",
-                display: "inline-flex", alignItems: "center", gap: 5,
-                padding: "6px 14px", borderRadius: 999,
-                background: "white", boxShadow: "0 4px 18px rgba(10,114,122,0.18)",
-                border: "1px solid rgba(10,114,122,0.13)",
-                whiteSpace: "nowrap", fontFamily: "var(--font-main)",
-              }}
-            >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="var(--secondary)">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-              </svg>
-              <span style={{ fontSize: 13, fontWeight: 800, color: "var(--dark)" }}>4.9</span>
-              <span style={{ fontSize: 10, color: "var(--gray)" }}>· 2K+ Reviews</span>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.75 }} whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }} transition={{ delay: 0.5, duration: 0.4 }}
-              style={{
-                position: "absolute", top: 12, left: -14,
-                background: "var(--primary)", borderRadius: 8,
-                padding: "5px 11px", fontFamily: "var(--font-main)",
-                fontSize: 10, fontWeight: 700, color: "white",
-                whiteSpace: "nowrap", boxShadow: "0 3px 12px rgba(10,114,122,0.28)",
-              }}
-            >5000+ Admissions</motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.75 }} whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }} transition={{ delay: 0.62, duration: 0.4 }}
-              style={{
-                position: "absolute", top: 12, right: -18,
-                background: "var(--secondary)", borderRadius: 8,
-                padding: "5px 11px", fontFamily: "var(--font-main)",
-                fontSize: 10, fontWeight: 700, color: "white",
-                whiteSpace: "nowrap", boxShadow: "0 3px 12px rgba(247,148,29,0.3)",
-              }}
-            >15+ Countries</motion.div>
-
+            {/* connector line + dot to slider */}
             <div className="hidden md:block" style={{
               position: "absolute", top: "50%", right: -38,
               transform: "translateY(-50%)",
               width: 34, height: 2,
-              background: "linear-gradient(to right, var(--primary), rgba(10,114,122,0.15))",
+              background: "linear-gradient(to right, var(--primary), rgba(225,10,111,0.15))",
             }} />
             <div className="hidden md:block" style={{
               position: "absolute", top: "50%", right: -50,
               transform: "translateY(-50%)",
               width: 11, height: 11, borderRadius: "50%",
               background: "var(--primary)",
-              boxShadow: "0 0 0 4px rgba(10,114,122,0.18)",
+              boxShadow: "0 0 0 4px rgba(225,10,111,0.18)",
             }} />
           </motion.div>
 

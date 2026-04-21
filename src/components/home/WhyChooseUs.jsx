@@ -1,68 +1,89 @@
 import {
-  GraduationCap,
-  Globe,
-  HeartHandshake,
+  Award,
+  Users,
   BadgeCheck,
-  Clock,
-  Wallet,
+  Globe,
+  ShieldCheck,
+  TrendingUp,
 } from "lucide-react";
 
 const cards = [
   {
-    icon: GraduationCap,
-    title: "Expert Counseling",
-    desc: "One-on-one guidance to choose the right course, university, and country.",
+    icon: Award,
+    title: "15+ Years Experience",
+    desc: "Decades of expertise guiding students toward successful international education paths.",
+    side: "left",
+  },
+  {
+    icon: Users,
+    title: "6,500+ Students Placed",
+    desc: "Thousands of students successfully placed in top universities worldwide.",
+    side: "right",
+  },
+  {
+    icon: BadgeCheck,
+    title: "98% Visa Success Rate",
+    desc: "Strong documentation and expert guidance ensure high visa approval chances.",
     side: "left",
   },
   {
     icon: Globe,
     title: "Global University Network",
-    desc: "Access to top universities across countries with full support.",
+    desc: "Partnerships with leading universities across multiple countries.",
     side: "right",
   },
   {
-    icon: Wallet,
-    title: "Affordable & Transparent",
-    desc: "Clear guidance on tuition, scholarships, and education loans.",
+    icon: ShieldCheck,
+    title: "Transparent Process",
+    desc: "Clear, honest guidance with no hidden charges or false promises.",
     side: "left",
   },
   {
-    icon: BadgeCheck,
-    title: "High Visa Success",
-    desc: "Strong documentation support for maximum approval chances.",
-    side: "right",
-  },
-  {
-    icon: HeartHandshake,
-    title: "End-to-End Support",
-    desc: "From admission to travel, we handle everything.",
-    side: "left",
-  },
-  {
-    icon: Clock,
-    title: "Fast Process",
-    desc: "Quick and reliable application & visa processing.",
+    icon: TrendingUp,
+    title: "Proven Results",
+    desc: "Consistent success in admissions, scholarships, and career outcomes.",
     side: "right",
   },
 ];
 
 function WhyChooseUs() {
   return (
-    <section className="relative py-20 md:py-24 bg-[var(--primary-light)] overflow-hidden">
+    <section className="relative py-20 md:py-24 overflow-hidden">
 
-      {/* BACKGROUND BLOBS */}
-      <div className="absolute -left-32 top-20 w-72 h-72 bg-[var(--primary)] opacity-10 blur-3xl rounded-full" />
-      <div className="absolute -right-32 bottom-20 w-72 h-72 bg-[var(--secondary)] opacity-10 blur-3xl rounded-full" />
+      {/* ✅ LIGHT GREY BACKGROUND */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: "var(--light)",
+        }}
+      />
 
-      <div className="max-w-7xl xl:max-w-[1400px] mx-auto px-4 sm:px-8">
+      {/* ✨ SOFT BRAND GLOW */}
+      <div
+        className="absolute -left-40 top-20 w-[320px] h-[320px] rounded-full blur-3xl"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(225,10,111,0.08) 0%, transparent 70%)",
+        }}
+      />
+
+      <div
+        className="absolute -right-40 bottom-20 w-[280px] h-[280px] rounded-full blur-3xl"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(225,10,111,0.06) 0%, transparent 70%)",
+        }}
+      />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-8">
 
         {/* HEADER */}
         <div className="text-center mb-14">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[var(--dark)]">
             Why Choose <span className="text-[var(--primary)]">Us</span>
           </h2>
-          <p className="text-gray-500 mt-3 text-sm sm:text-base">
-            Here's why students trust us for their journey
+          <p className="text-gray-600 mt-3 text-sm sm:text-base">
+            Real results, real trust, and a proven track record
           </p>
         </div>
 
@@ -82,7 +103,7 @@ function WhyChooseUs() {
               stroke="var(--primary)"
               strokeWidth="1.5"
               strokeDasharray="6 6"
-              opacity="0.2"
+              opacity="0.12"
             />
           </svg>
 
@@ -100,54 +121,60 @@ function WhyChooseUs() {
                   className={`flex justify-center 
                   ${isLeft ? "md:justify-end md:pr-10" : "md:justify-start md:pl-10"}`}
                 >
-
-                  {/* CARD */}
                   <div
-                    className="relative w-[280px] h-[220px] bg-white border border-gray-200 rounded-[22px] shadow-[0_15px_40px_rgba(0,0,0,0.08)] p-4 transition-all duration-300"
+                    className="relative w-[280px] h-[220px] rounded-[22px] p-5 transition-all duration-300"
                     style={{
                       transform:
-                        window.innerWidth < 768
+                        typeof window !== "undefined" && window.innerWidth < 768
                           ? "rotate(0deg)"
                           : `rotate(${rotate})`,
+
+                      /* 🔥 SOFT PINK GLASS CARD (NOT LOUD) */
+                      background: `
+                        linear-gradient(
+                          145deg,
+                          color-mix(in srgb, var(--primary-light) 70%, #ffffff),
+                          color-mix(in srgb, var(--primary-light) 90%, #ffffff)
+                        )
+                      `,
+
+                      border:
+                        "1px solid color-mix(in srgb, var(--primary) 25%, transparent)",
+
+                      boxShadow:
+                        "0 12px 30px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.6)",
                     }}
                     onMouseEnter={(e) => {
                       if (window.innerWidth >= 768) {
                         e.currentTarget.style.transform =
                           "rotate(0deg) scale(1.05)";
+                        e.currentTarget.style.boxShadow =
+                          "0 20px 50px rgba(0,0,0,0.15)";
                       }
                     }}
                     onMouseLeave={(e) => {
                       if (window.innerWidth >= 768) {
                         e.currentTarget.style.transform = `rotate(${rotate})`;
+                        e.currentTarget.style.boxShadow =
+                          "0 12px 30px rgba(0,0,0,0.08)";
                       }
                     }}
                   >
 
                     {/* PIN */}
-                    <div className="absolute -top-5 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center">
-                      <div className="relative">
-                        <div
-                          className="w-5 h-5 rounded-full shadow-lg"
-                          style={{
-                            background:
-                              "radial-gradient(circle at 30% 30%, #ffffff 10%, var(--primary) 40%, #1d4ed8 100%)",
-                          }}
-                        />
-                        <div className="absolute top-[3px] left-[4px] w-2 h-2 bg-white/70 rounded-full blur-[1px]" />
-                      </div>
+                    <div className="absolute -top-5 left-1/2 -translate-x-1/2 flex flex-col items-center">
                       <div
-                        className="w-[2px] h-6"
+                        className="w-5 h-5 rounded-full shadow-md"
                         style={{
                           background:
-                            "linear-gradient(to bottom, #9ca3af, #6b7280)",
+                            "radial-gradient(circle at 30% 30%, #fff 10%, var(--primary) 40%, var(--primary-dark) 100%)",
                         }}
                       />
-                      <div className="w-2 h-2 bg-black/10 blur-sm rounded-full mt-[-2px]" />
+                      <div className="w-[2px] h-6 bg-gray-300" />
                     </div>
 
-                    {/* 🔥 INNER BOX — SECONDARY BASED */}
-                    <div className="bg-gradient-to-br from-white to-[var(--secondary)]/30 rounded-[16px] h-full p-5 flex flex-col justify-center">
-
+                    {/* CONTENT */}
+                    <div className="flex flex-col justify-center h-full">
                       <div className="mb-3">
                         <Icon size={20} style={{ color: "var(--primary)" }} />
                       </div>
@@ -156,11 +183,11 @@ function WhyChooseUs() {
                         {card.title}
                       </h3>
 
-                      <p className="text-sm text-gray-600 leading-relaxed">
+                      <p className="text-sm text-gray-700 leading-relaxed">
                         {card.desc}
                       </p>
-
                     </div>
+
                   </div>
                 </div>
               );

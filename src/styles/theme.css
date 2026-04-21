@@ -1,15 +1,18 @@
 :root {
-  /* PRIMARY BRAND COLORS (aqua / cyan tone like Medaac) */
-  --primary: #0A727A ;     /* aqua blue (main brand feel) */
-  --primary-dark: #007ea3;
-  --primary-light: #e6f7fb;
-
-  --secondary: #f7941d;   /* orange (unchanged but balanced) */
+  /* PRIMARY BRAND COLORS (Exact Logo Pink) */
+  --primary: #E10A6F;        /* logo match pink */
+  --primary-dark: #B90958;   /* hover */
+  --primary-light: #FDE6F0;  /* soft background */
 
   /* NEUTRALS */
-  --dark: #1f2937;
-  --light: #f9fafb;
-  --gray: #6b7280;
+  --dark: #121212;
+  --dark-light: #1A1A1A;
+
+  --light: #F8F9FB;
+  --white: #FFFFFF;
+
+  --gray: #6B7280;
+  --border: #E5E7EB;
 
   /* FONT */
   --font-main: 'Poppins', sans-serif;

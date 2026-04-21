@@ -55,149 +55,231 @@ function Courses() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <section className="py-24 bg-[var(--primary-light)]">
-      <div className="max-w-7xl mx-auto px-6">
+    <section
+  className="relative py-24 overflow-hidden"
+  style={{
+    fontFamily: "var(--font-main)",
+    background: "var(--light)", // ✅ FIXED
+  }}
+>
+  {/* subtle blobs (reduced intensity, theme based) */}
+  <div
+    className="absolute top-[-120px] left-[-120px] w-[380px] h-[380px] rounded-full pointer-events-none"
+    style={{
+      background:
+        "radial-gradient(circle, color-mix(in srgb, var(--primary) 10%, transparent) 0%, transparent 70%)",
+      filter: "blur(40px)",
+    }}
+  />
 
-        {/* HEADER */}
-        <div className="flex justify-between items-center mb-14">
-          <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-[var(--dark)]">
-              Discover Trending Courses
-            </h2>
-            <div className="mt-2 h-1 w-20 bg-[var(--secondary)] rounded-full"></div>
-          </div>
+  <div
+    className="absolute bottom-[-100px] right-[-80px] w-[300px] h-[300px] rounded-full pointer-events-none"
+    style={{
+      background:
+        "radial-gradient(circle, color-mix(in srgb, var(--primary) 8%, transparent) 0%, transparent 70%)",
+      filter: "blur(40px)",
+    }}
+  />
 
-          {/* ARROWS + VIEW ALL */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => swiperRef.current?.slidePrev()}
-              className={`w-10 h-10 rounded-full border flex items-center justify-center transition
-                ${activeIndex === 0
-                  ? "border-gray-300 text-gray-300"
-                  : "border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white"}`}
-            >
-              <ChevronLeft size={20} />
-            </button>
+  <div className="max-w-7xl mx-auto px-6 relative z-10">
 
-            <button
-              onClick={() => swiperRef.current?.slideNext()}
-              className={`w-10 h-10 rounded-full border flex items-center justify-center transition
-                ${activeIndex === courses.length - 1
-                  ? "border-gray-300 text-gray-300"
-                  : "border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white"}`}
-            >
-              <ChevronRight size={20} />
-            </button>
+    {/* HEADER */}
+    <div className="flex justify-between items-center mb-14">
+      <div>
+        <h2 className="text-3xl md:text-4xl font-bold" style={{ color: "var(--dark)" }}>
+          Discover Trending Courses
+        </h2>
 
-           <button className="px-5 py-2 rounded-full text-sm font-medium bg-[var(--secondary)] text-white border border-[var(--secondary)]hover:bg-transparent hover:text-[var(--secondary)] transition">
-                View All
-           </button>
-          </div>
-        </div>
+        {/* FIXED secondary → primary */}
+        <div
+          className="mt-2 h-1 w-20 rounded-full"
+          style={{ background: "var(--primary)" }}
+        />
+      </div>
 
-        {/* SLIDER */}
-        <div className="overflow-hidden">
-         <Swiper
-           modules={[Autoplay]}
-           onSwiper={(swiper) => (swiperRef.current = swiper)}
-           onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+      <div className="flex items-center gap-3">
+        <button
+          onClick={() => swiperRef.current?.slidePrev()}
+          className={`w-10 h-10 rounded-full border flex items-center justify-center transition
+            ${activeIndex === 0
+              ? "opacity-40"
+              : ""}`}
+          style={{
+            borderColor: "var(--border)",
+            color: "var(--primary)",
+          }}
+        >
+          <ChevronLeft size={20} />
+        </button>
 
-           spaceBetween={20}
-           loop={true}
+        <button
+          onClick={() => swiperRef.current?.slideNext()}
+          className={`w-10 h-10 rounded-full border flex items-center justify-center transition
+            ${activeIndex === courses.length - 1
+              ? "opacity-40"
+              : ""}`}
+          style={{
+            borderColor: "var(--border)",
+            color: "var(--primary)",
+          }}
+        >
+          <ChevronRight size={20} />
+        </button>
 
-           speed={1200} // 🔥 smoother continuous feel
+        <button
+          className="px-5 py-2 rounded-full text-sm font-medium transition"
+          style={{
+            background: "var(--primary)",
+            color: "var(--white)",
+            border: "1px solid var(--primary)",
+          }}
+        >
+          View All
+        </button>
+      </div>
+    </div>
 
-           autoplay={{
-           delay: 0,              // 🔥 faster autoplay
-           disableOnInteraction: false,
-           pauseOnMouseEnter: true,
+    {/* SLIDER */}
+    <div className="overflow-hidden">
+      <Swiper
+        modules={[Autoplay]}
+        onSwiper={(swiper) => (swiperRef.current = swiper)}
+        onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+        spaceBetween={20}
+        loop={true}
+        speed={1200}
+        autoplay={{
+          delay: 0,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
         }}
-
-           breakpoints={{
-             0: { slidesPerView: 1 },
-             640: { slidesPerView: 1.2 },
-             1024: { slidesPerView: 2 },
+        breakpoints={{
+          0: { slidesPerView: 1 },
+          640: { slidesPerView: 1.2 },
+          1024: { slidesPerView: 2 },
         }}
-     >
-            {courses.map((course, index) => (
-              <SwiperSlide key={index}>
+      >
+        {courses.map((course, index) => (
+          <SwiperSlide key={index}>
 
-                {/* MOBILE */}
-                <div className="block md:hidden bg-white rounded-[32px] shadow-md overflow-hidden">
-                  <div className="w-full h-52 overflow-hidden">
-                    <img
-                      src={course.image}
-                      alt={course.title}
-                      className="w-full h-full object-cover"
-                    />
+            {/* MOBILE */}
+            <div
+              className="block md:hidden rounded-[32px] overflow-hidden"
+              style={{
+                background: "var(--white)",
+                border: "1px solid var(--border)",
+              }}
+            >
+              <div className="w-full h-52 overflow-hidden">
+                <img src={course.image} alt={course.title} className="w-full h-full object-cover" />
+              </div>
+
+              <div className="px-6 py-5">
+                <h3 className="text-xl font-semibold mb-2" style={{ color: "var(--primary)" }}>
+                  {course.title}
+                </h3>
+
+                <p className="text-sm leading-relaxed mb-4" style={{ color: "var(--gray)" }}>
+                  {course.desc}
+                </p>
+
+                <div className="flex gap-3 mb-5 text-xs">
+                  <span
+                    className="px-3 py-1.5 rounded-full"
+                    style={{ background: "var(--primary-light)", color: "var(--primary-dark)" }}
+                  >
+                    ⏱ {course.duration}
+                  </span>
+
+                  <span
+                    className="px-3 py-1.5 rounded-full"
+                    style={{ background: "var(--primary-light)", color: "var(--primary-dark)" }}
+                  >
+                    🌍 {course.countries}
+                  </span>
+                </div>
+
+                <button
+                  className="px-5 py-2 rounded-full text-sm transition"
+                  style={{
+                    background: "var(--primary)",
+                    color: "var(--white)",
+                  }}
+                >
+                  Learn More
+                </button>
+              </div>
+            </div>
+
+            {/* DESKTOP */}
+            <div className="hidden md:block py-6 pl-6">
+              <div className="relative flex items-center">
+
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 z-10">
+                  <div
+                    className="w-[220px] h-[220px] md:w-[260px] md:h-[260px] rounded-[32px] overflow-hidden"
+                    style={{
+                      border: "4px solid var(--white)",
+                      boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
+                    }}
+                  >
+                    <img src={course.image} alt={course.title} className="w-full h-full object-cover" />
                   </div>
-                  <div className="px-6 py-5">
-                    <h3 className="text-xl font-semibold text-[var(--primary)] mb-2">
+                </div>
+
+                <div
+                  className="rounded-[32px] w-full h-[320px] md:h-[360px] flex items-center pl-[180px] md:pl-[220px] pr-8 md:pr-12 ml-[110px] md:ml-[130px]"
+                  style={{
+                    background: "var(--white)",
+                    border: "1px solid var(--border)",
+                  }}
+                >
+                  <div className="max-w-md">
+                    <h3 className="text-xl md:text-2xl font-semibold mb-3" style={{ color: "var(--primary)" }}>
                       {course.title}
                     </h3>
-                    <p className="text-gray-600 text-sm leading-relaxed mb-4">
+
+                    <p className="text-sm md:text-base leading-relaxed mb-4" style={{ color: "var(--gray)" }}>
                       {course.desc}
                     </p>
+
                     <div className="flex gap-3 mb-5 text-xs">
-                      <span className="bg-gray-100 px-3 py-1.5 rounded-full text-gray-600">
+                      <span
+                        className="px-3 py-1.5 rounded-full"
+                        style={{ background: "var(--primary-light)", color: "var(--primary-dark)" }}
+                      >
                         ⏱ {course.duration}
                       </span>
-                      <span className="bg-gray-100 px-3 py-1.5 rounded-full text-gray-600">
+
+                      <span
+                        className="px-3 py-1.5 rounded-full"
+                        style={{ background: "var(--primary-light)", color: "var(--primary-dark)" }}
+                      >
                         🌍 {course.countries}
                       </span>
                     </div>
-                    <button className="bg-[var(--secondary)] text-white px-5 py-2 rounded-full text-sm hover:opacity-90 hover:scale-105 transition">
+
+                    <button
+                      className="px-5 py-2 rounded-full text-sm transition"
+                      style={{
+                        background: "var(--primary)",
+                        color: "var(--white)",
+                      }}
+                    >
                       Learn More
                     </button>
                   </div>
                 </div>
 
-                {/* DESKTOP */}
-                <div className="hidden md:block py-6 pl-6">
-                  <div className="relative flex items-center">
+              </div>
+            </div>
 
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 z-10">
-                      <div className="w-[220px] h-[220px] md:w-[260px] md:h-[260px] rounded-[32px] overflow-hidden shadow-xl border-4 border-white">
-                        <img
-                          src={course.image}
-                          alt={course.title}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="bg-white rounded-[32px] w-full h-[320px] md:h-[360px] shadow-md flex items-center pl-[180px] md:pl-[220px] pr-8 md:pr-12 ml-[110px] md:ml-[130px]">
-                      <div className="max-w-md">
-                        <h3 className="text-xl md:text-2xl font-semibold text-[var(--primary)] mb-3">
-                          {course.title}
-                        </h3>
-                        <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-4">
-                          {course.desc}
-                        </p>
-                        <div className="flex gap-3 mb-5 text-xs">
-                          <span className="bg-gray-100 px-3 py-1.5 rounded-full text-gray-600">
-                            ⏱ {course.duration}
-                          </span>
-                          <span className="bg-gray-100 px-3 py-1.5 rounded-full text-gray-600">
-                            🌍 {course.countries}
-                          </span>
-                        </div>
-                        <button className="bg-[var(--secondary)] text-white px-5 py-2 rounded-full text-sm hover:opacity-90 hover:scale-105 transition">
-                          Learn More
-                        </button>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
-
-      </div>
-    </section>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
+  </div>
+</section>
   );
 }
 

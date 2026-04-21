@@ -2,11 +2,21 @@ import { FaInstagram, FaFacebookF, FaYoutube, FaWhatsapp } from "react-icons/fa"
 import logo from "../../assets/images/logo-footer.png";
 
 function Footer() {
+    const navLinks = [
+        { label: "Home", href: "/" },
+        { label: "About", href: "/about" },
+        { label: "Courses", href: "/courses" },
+        { label: "Study India", href: "/study-india" },
+        { label: "Study Abroad", href: "/study-abroad" },
+        { label: "MBBS Abroad", href: "/mbbs-abroad" },
+        { label: "Blog", href: "/blog" },
+    ];
+
     return (
         <footer
             className="pt-12 md:pt-16 pb-8"
             style={{
-                background: "linear-gradient(135deg, var(--primary) 0%, var(--primary) 100%)",
+                background: "linear-gradient(135deg, #121212 0%, #1A1A1A 60%, #2A0A1A 100%)",
                 fontFamily: "var(--font-main)",
             }}
         >
@@ -17,30 +27,21 @@ function Footer() {
 
                     {/* BRAND */}
                     <div className="sm:col-span-2 md:col-span-1">
-                        <div className="flex items-center gap-3 mb-4">
-                            <img
-                                src={logo}
-                                alt="logo"
-                                className="h-8 md:h-9 w-auto object-contain"
-                            />
-                        </div>
+                        <img src={logo} alt="logo" className="h-9 mb-4" />
 
-                        <p
-                            className="text-sm leading-relaxed max-w-sm"
-                            style={{ color: "rgba(255,255,255,0.75)" }}
-                        >
+                        <p className="text-sm text-gray-400 leading-relaxed max-w-sm">
                             Helping students achieve their dream of studying abroad with
                             complete guidance — from admission to visa support.
                         </p>
 
                         {/* SOCIALS */}
-                        <div className="flex gap-3 md:gap-4 mt-5">
+                        <div className="flex gap-4 mt-5">
                             {[FaInstagram, FaFacebookF, FaYoutube, FaWhatsapp].map((Icon, i) => (
                                 <div
                                     key={i}
-                                    className="w-10 h-10 md:w-9 md:h-9 flex items-center justify-center rounded-full cursor-pointer transition hover:scale-105 active:scale-95"
+                                    className="w-10 h-10 flex items-center justify-center rounded-full cursor-pointer transition hover:scale-105"
                                     style={{
-                                        background: "rgba(255,255,255,0.1)",
+                                        background: "rgba(255,255,255,0.08)",
                                         color: "white",
                                     }}
                                 >
@@ -52,18 +53,13 @@ function Footer() {
 
                     {/* QUICK LINKS */}
                     <div>
-                        <h3 className="font-semibold mb-3 md:mb-4 text-white">
-                            Quick Links
-                        </h3>
-
-                        <ul className="space-y-2 text-sm">
-                            {["Home", "About", "Courses", "Study Abroad", "Blog"].map((item) => (
-                                <li
-                                    key={item}
-                                    className="cursor-pointer transition hover:text-white active:opacity-70"
-                                    style={{ color: "rgba(255,255,255,0.7)" }}
-                                >
-                                    {item}
+                        <h3 className="font-semibold mb-4 text-white">Quick Links</h3>
+                        <ul className="space-y-2 text-sm text-gray-400">
+                            {navLinks.map((item) => (
+                                <li key={item.label}>
+                                    <a href={item.href} className="hover:text-[var(--primary)] transition">
+                                        {item.label}
+                                    </a>
                                 </li>
                             ))}
                         </ul>
@@ -71,18 +67,13 @@ function Footer() {
 
                     {/* COURSES */}
                     <div>
-                        <h3 className="font-semibold mb-3 md:mb-4 text-white">
-                            Courses
-                        </h3>
-
-                        <ul className="space-y-2 text-sm">
+                        <h3 className="font-semibold mb-4 text-white">Courses</h3>
+                        <ul className="space-y-2 text-sm text-gray-400">
                             {["MBBS Abroad", "Nursing", "Paramedical"].map((item) => (
-                                <li
-                                    key={item}
-                                    className="cursor-pointer transition hover:text-white active:opacity-70"
-                                    style={{ color: "rgba(255,255,255,0.7)" }}
-                                >
-                                    {item}
+                                <li key={item}>
+                                    <span className="hover:text-[var(--primary)] transition cursor-pointer">
+                                        {item}
+                                    </span>
                                 </li>
                             ))}
                         </ul>
@@ -90,50 +81,26 @@ function Footer() {
 
                     {/* CONTACT */}
                     <div>
-                        <h3 className="font-semibold mb-3 md:mb-4 text-white">
-                            Contact
-                        </h3>
-
-                        <ul className="space-y-2 text-sm">
-                            <li style={{ color: "rgba(255,255,255,0.75)" }}>
-                                📍 Tamil Nadu, India
-                            </li>
-                            <li style={{ color: "rgba(255,255,255,0.75)" }}>
-                                📞 +91 98765 43210
-                            </li>
-                            <li style={{ color: "rgba(255,255,255,0.75)" }}>
-                                ✉️ info@medaac.com
-                            </li>
+                        <h3 className="font-semibold mb-4 text-white">Contact</h3>
+                        <ul className="space-y-2 text-sm text-gray-400">
+                            <li>📍 Tamil Nadu, India</li>
+                            <li>📞 +91 98765 43210</li>
+                            <li>✉️ info@medaac.com</li>
                         </ul>
                     </div>
                 </div>
 
                 {/* DIVIDER */}
-                <div
-                    className="h-[1px] mb-5 md:mb-6"
-                    style={{ background: "rgba(255,255,255,0.15)" }}
-                />
+                <div className="h-[1px] bg-gray-700 mb-6" />
 
                 {/* BOTTOM */}
-                <div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-3 text-sm">
+                <div className="flex flex-col md:flex-row justify-between items-center gap-3 text-sm text-gray-500">
 
-                    <p style={{ color: "rgba(255,255,255,0.65)" }}>
-                        © 2026 MEDAAC. All rights reserved.
-                    </p>
+                    <p>© 2026 MEDAAC. All rights reserved.</p>
 
-                    <div className="flex flex-wrap justify-center md:justify-end gap-4">
-                        <span
-                            className="cursor-pointer hover:text-white"
-                            style={{ color: "rgba(255,255,255,0.65)" }}
-                        >
-                            Privacy Policy
-                        </span>
-                        <span
-                            className="cursor-pointer hover:text-white"
-                            style={{ color: "rgba(255,255,255,0.65)" }}
-                        >
-                            Terms & Conditions
-                        </span>
+                    <div className="flex gap-4">
+                        <span className="cursor-pointer hover:text-white">Privacy Policy</span>
+                        <span className="cursor-pointer hover:text-white">Terms & Conditions</span>
                     </div>
                 </div>
 

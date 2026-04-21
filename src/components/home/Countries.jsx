@@ -40,25 +40,21 @@ function CountryCard({ country }) {
   );
 }
 
-/* SCROLL COLUMN — CSS animation, no framer-motion */
+/* SCROLL COLUMN */
 function ScrollColumn({ items, direction }) {
   const trackRef = useRef(null);
 
-  // Inject a keyframe rule for this column once the element is measured
   useEffect(() => {
     const el = trackRef.current;
     if (!el) return;
 
-    // Wait one frame so images have painted and heights are correct
     const raf = requestAnimationFrame(() => {
-      // The track renders [items, items] (doubled). Half-height = one set.
       const halfH = el.scrollHeight / 2;
 
       const id = `scroll-${direction}-${Math.random().toString(36).slice(2, 7)}`;
       const from = direction === "up" ? "0px" : `-${halfH}px`;
       const to   = direction === "up" ? `-${halfH}px` : "0px";
 
-      // Insert the keyframe rule once
       const sheet = document.createElement("style");
       sheet.textContent = `
         @keyframes ${id} {
@@ -68,12 +64,9 @@ function ScrollColumn({ items, direction }) {
       `;
       document.head.appendChild(sheet);
 
-      // Apply to the track element
-      el.style.animation = `${id} 18s linear infinite`;
+      el.style.animation = `${id} 20s linear infinite`;
 
-      return () => {
-        document.head.removeChild(sheet);
-      };
+      return () => document.head.removeChild(sheet);
     });
 
     return () => cancelAnimationFrame(raf);
@@ -83,21 +76,14 @@ function ScrollColumn({ items, direction }) {
 
   return (
     <div className="relative h-full w-44 lg:w-56 overflow-hidden">
-      {/* will-change + translate3d keeps animation on GPU */}
-      <div
-        ref={trackRef}
-        className="flex flex-col gap-5"
-        style={{ willChange: "transform" }}
-      >
+      <div ref={trackRef} className="flex flex-col gap-5" style={{ willChange: "transform" }}>
         {doubled.map((c, i) => (
           <CountryCard key={i} country={c} />
         ))}
       </div>
 
-      {/* fade top */}
-      <div className="absolute top-0 left-0 w-full h-28 bg-gradient-to-b from-[var(--primary)] via-[var(--primary)]/90 to-transparent z-10 pointer-events-none" />
-      {/* fade bottom */}
-      <div className="absolute bottom-0 left-0 w-full h-28 bg-gradient-to-t from-[var(--primary)] via-[var(--primary)]/90 to-transparent z-10 pointer-events-none" />
+      <div className="absolute top-0 left-0 w-full h-28 bg-gradient-to-b from-[var(--primary-light)] to-transparent z-10 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-full h-28 bg-gradient-to-t from-[var(--primary-light)] to-transparent z-10 pointer-events-none" />
     </div>
   );
 }
@@ -105,18 +91,41 @@ function ScrollColumn({ items, direction }) {
 /* MAIN */
 function Countries() {
   return (
-    <section className="relative bg-[var(--primary)] py-20 md:py-24 min-h-[650px] md:min-h-[80vh] overflow-hidden">
+    <section
+      className="relative py-20 md:py-24 min-h-[650px] md:min-h-[80vh] overflow-hidden"
+      style={{
+        /* ✅ CLEAN NEUTRAL PREMIUM BACKGROUND */
+        background: "color-mix(in srgb, var(--primary-light) 85%, #f3f4f6)",
+      }}
+    >
 
-      {/* BG pattern */}
+      {/* subtle glow (reduced intensity) */}
       <div
-        className="absolute inset-0 opacity-[0.04]"
+        className="absolute -top-32 left-[-120px] w-[400px] h-[400px] rounded-full pointer-events-none"
         style={{
-          backgroundImage: `radial-gradient(circle, white 1px, transparent 1px)`,
-          backgroundSize: "28px 28px",
+          background:
+            "radial-gradient(circle, rgba(224,17,127,0.08) 0%, transparent 70%)",
         }}
       />
 
-      {/* LEFT SCROLL */}
+      <div
+        className="absolute bottom-[-120px] right-[-100px] w-[320px] h-[320px] rounded-full pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(224,17,127,0.06) 0%, transparent 70%)",
+        }}
+      />
+
+      {/* subtle pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.025]"
+        style={{
+          backgroundImage: `radial-gradient(circle, #000 1px, transparent 1px)`,
+          backgroundSize: "30px 30px",
+        }}
+      />
+
+      {/* LEFT */}
       <div className="hidden md:block absolute inset-y-0 left-0 w-full">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 h-full relative">
           <div className="absolute left-0 h-full">
@@ -125,7 +134,7 @@ function Countries() {
         </div>
       </div>
 
-      {/* RIGHT SCROLL */}
+      {/* RIGHT */}
       <div className="hidden md:block absolute inset-y-0 left-0 w-full">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 h-full relative">
           <div className="absolute right-0 h-full">
@@ -134,46 +143,46 @@ function Countries() {
         </div>
       </div>
 
-      {/* CENTER CONTENT */}
+      {/* CENTER */}
       <div className="max-w-7xl mx-auto px-3 sm:px-6 relative z-20">
-        <div className="max-w-xl mx-auto text-center text-white">
+        <div className="max-w-xl mx-auto text-center text-[var(--dark)]">
 
-          <span className="inline-block text-xs font-bold tracking-widest text-white/50 uppercase mb-4">
+          <span className="inline-block text-xs font-bold tracking-widest text-[var(--gray)] uppercase mb-4">
             Study Abroad
           </span>
 
           <h2 className="text-3xl lg:text-4xl font-bold leading-snug mb-5">
             Choose Your <br />
-            <span className="text-[var(--secondary)]">
+            <span style={{ color: "var(--primary)" }}>
               Study Destination
             </span>
           </h2>
 
-          <p className="text-white/70 text-sm lg:text-base leading-relaxed mb-8">
+          <p className="text-[var(--gray)] text-sm lg:text-base leading-relaxed mb-8">
             Affordable fees, globally recognized degrees, and expert support at every step of your journey.
           </p>
 
-          {/* stats */}
           <div className="flex justify-center gap-6 mb-8">
             <div>
-              <p className="text-2xl font-bold">15+</p>
-              <p className="text-xs text-white/60">Countries</p>
+              <p className="text-2xl font-bold text-[var(--dark)]">15+</p>
+              <p className="text-xs text-[var(--gray)]">Countries</p>
             </div>
-            <div className="w-px bg-white/20" />
+            <div className="w-px bg-gray-300" />
             <div>
-              <p className="text-2xl font-bold text-[var(--secondary)]">100+</p>
-              <p className="text-xs text-white/60">Universities</p>
+              <p className="text-2xl font-bold text-[var(--primary)]">100+</p>
+              <p className="text-xs text-[var(--gray)]">Universities</p>
             </div>
-            <div className="w-px bg-white/20" />
+            <div className="w-px bg-gray-300" />
             <div>
-              <p className="text-2xl font-bold">Free</p>
-              <p className="text-xs text-white/60">Counselling</p>
+              <p className="text-2xl font-bold text-[var(--dark)]">Free</p>
+              <p className="text-xs text-[var(--gray)]">Counselling</p>
             </div>
           </div>
 
           <a
             href="#"
-            className="inline-flex items-center gap-2 bg-[var(--secondary)] px-7 py-3 rounded-full text-sm font-semibold hover:opacity-90 transition"
+            className="inline-flex items-center gap-2 px-7 py-3 rounded-full text-sm font-semibold
+                       bg-[var(--primary)] text-white hover:opacity-90 transition"
           >
             View All Countries <ArrowRight size={16} />
           </a>

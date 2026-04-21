@@ -3,11 +3,11 @@ import { Plus, Minus, X, Phone, MessageCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const faqs = [
-  { q: "How long does the admission process take?", a: "2–4 weeks depending on university." },
-  { q: "Which countries do you provide guidance for?", a: "15+ countries including Russia, Georgia, Kazakhstan." },
-  { q: "Is there any fee for counselling?", a: "Initial counselling is free." },
-  { q: "Do you help with visa?", a: "Yes, full visa support provided." },
-  { q: "Documents required?", a: "10th, 12th, NEET, Passport." },
+  { q: "How long does the admission process take?", a: "Typically 2–4 weeks depending on university selection and document readiness." },
+  { q: "Which countries do you provide guidance for?", a: "We guide students for MBBS and other courses in Russia, Georgia, Kazakhstan, Philippines, and more." },
+  { q: "Is there any fee for counselling?", a: "No. Initial counselling and profile evaluation are completely free." },
+  { q: "Do you help with visa processing?", a: "Yes, we provide complete visa assistance including documentation and interview preparation." },
+  { q: "What documents are required?", a: "10th & 12th marksheets, NEET scorecard, valid passport, and passport-size photos." },
 ];
 
 function FAQItem({ item, index, isOpen, onToggle }) {
@@ -17,7 +17,7 @@ function FAQItem({ item, index, isOpen, onToggle }) {
       style={{
         background: isOpen ? "var(--primary)" : "white",
         border: "1px solid rgba(0,0,0,0.08)",
-        boxShadow: isOpen ? "0 8px 25px rgba(10,114,122,0.2)" : "none",
+        boxShadow: isOpen ? "0 8px 25px rgba(224,17,127,0.25)" : "none",
       }}
     >
       <button
@@ -134,10 +134,10 @@ function FAQ() {
             {/* SHAPE */}
             <div className="relative mb-6 sm:mb-8 w-[180px] h-[180px] sm:w-[240px] sm:h-[240px] flex items-center justify-center">
 
-              {/* GLOW */}
+              {/* UPDATED GLOW (FIXED TO YOUR THEME) */}
               <div
                 className="absolute w-full h-full rounded-full blur-2xl"
-                style={{ background: "rgba(10,114,122,0.25)" }}
+                style={{ background: "rgba(224,17,127,0.25)" }}
               />
 
               {/* SHAPE */}
