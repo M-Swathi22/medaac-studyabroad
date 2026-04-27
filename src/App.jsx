@@ -5,6 +5,7 @@ import Footer from "./components/layout/Footer";
 
 import Home from "./pages/Home";
 import About from "./pages/About";
+import Courses from "./pages/Courses";
 
 function App() {
   const location = useLocation(); 
@@ -15,6 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/courses" element={<Courses />} />
       </Routes>
 
       <Footer />
