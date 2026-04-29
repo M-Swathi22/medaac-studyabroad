@@ -1,11 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-/* ─────────────────────────────────────────────
-   COURSES DATA
-───────────────────────────────────────────── */
 const COURSES = [
   {
     id: "mbbs",
+    category: "medical",
+    slug: "mbbs",
     tag: "Most Popular",
     icon: "🩺",
     cardBg: "linear-gradient(145deg,#1A0010 0%,#3D0024 55%,#5C0035 100%)",
@@ -28,6 +28,8 @@ const COURSES = [
   },
   {
     id: "nursing",
+    category: "nursing",
+    slug: "bsc-nursing",
     tag: "Trending",
     icon: "💉",
     cardBg: "linear-gradient(145deg,#0D001A 0%,#2A0050 55%,#3D0070 100%)",
@@ -50,6 +52,8 @@ const COURSES = [
   },
   {
     id: "paramedical",
+    category: "paramedical",
+    slug: null,
     tag: "New",
     icon: "🧬",
     cardBg: "linear-gradient(145deg,#001A0D 0%,#003D24 55%,#005C35 100%)",
@@ -79,14 +83,9 @@ const STATS = [
   { value: "98%",    label: "Visa Success"     },
 ];
 
-/* "all" is the special id — no card gets active highlight */
 const ALL_TAB = { id: "all", icon: "◈", title: "All Courses" };
 
-/* ─────────────────────────────────────────────
-   STYLES
-───────────────────────────────────────────── */
 const STYLES = `
-
   .fc-section {
     width: 100%;
     background: var(--light);
@@ -113,16 +112,12 @@ const STYLES = `
     margin: 0 auto;
     position: relative;
   }
-
-  /* ══ MAIN ROW ══ */
   .fc-main-row {
     display: flex;
     gap: 32px;
     align-items: stretch;
     flex-wrap: wrap;
   }
-
-  /* ══ LEFT DARK PANEL ══ */
   .fc-left-panel {
     width: 320px;
     flex-shrink: 0;
@@ -180,8 +175,6 @@ const STYLES = `
     margin-top: 12px; font-size: 13px;
     line-height: 1.7; color: rgba(255,255,255,0.5);
   }
-
-  /* Globe */
   .fc-globe-wrap {
     position: relative; z-index: 1;
     display: flex; justify-content: center;
@@ -222,8 +215,6 @@ const STYLES = `
     border-color: rgba(225,10,111,0.3);
     color: #FF8FC5;
   }
-
-  /* Stats */
   .fc-stats-grid {
     position: relative; z-index: 1;
     display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
@@ -244,7 +235,6 @@ const STYLES = `
   .fc-stat-label {
     font-size: 10.5px; color: rgba(255,255,255,0.45); margin: 3px 0 0;
   }
-
   .fc-left-cta {
     position: relative; z-index: 1; margin-top: 20px;
     width: 100%; padding: 14px 0; border-radius: 16px; border: none;
@@ -258,8 +248,6 @@ const STYLES = `
     box-shadow: 0 12px 36px rgba(225,10,111,0.44);
     transform: translateY(-2px);
   }
-
-  /* ══ RIGHT ══ */
   .fc-right {
     flex: 1; min-width: 280px;
     display: flex; flex-direction: column;
@@ -280,8 +268,6 @@ const STYLES = `
     color: var(--dark); margin: 0;
   }
   .fc-right-heading-accent { color: var(--primary); }
-
-  /* ══ FILTER TABS ══ */
   .fc-filter-tabs {
     display: flex; gap: 10px;
     flex-wrap: wrap; margin-bottom: 24px;
@@ -301,15 +287,11 @@ const STYLES = `
     color: var(--white); font-weight: 700;
     box-shadow: 0 4px 16px rgba(225,10,111,0.27);
   }
-
-  /* ══ CARDS GRID ══ */
   .fc-cards-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 20px; flex: 1;
   }
-
-  /* ══ COURSE CARD ══ */
   .fc-card {
     background: var(--white); border-radius: 24px;
     overflow: hidden; display: flex; flex-direction: column;
@@ -328,7 +310,6 @@ const STYLES = `
     box-shadow: 0 20px 48px rgba(225,10,111,0.13);
     transform: translateY(-4px) scale(1.012);
   }
-
   .fc-card-header {
     position: relative; height: 180px; overflow: hidden;
   }
@@ -355,7 +336,6 @@ const STYLES = `
   }
   .fc-card:hover .fc-card-icon { transform: scale(1.12); }
   .fc-card.active .fc-card-icon { transform: scale(1.08); }
-
   .fc-card-tag {
     position: absolute; top: 14px; left: 14px;
     background: var(--primary); color: var(--white);
@@ -390,7 +370,6 @@ const STYLES = `
     border-radius: 0 0 24px 24px;
   }
   .fc-card.active::after { transform: scaleX(1); }
-
   .fc-card-body {
     flex: 1; display: flex; flex-direction: column;
     padding: 20px 22px;
@@ -457,8 +436,6 @@ const STYLES = `
     box-shadow: 0 10px 28px rgba(225,10,111,0.38);
     transform: translateY(-1px);
   }
-
-  /* ══ BOTTOM STRIP ══ */
   .fc-bottom-strip {
     margin-top: 36px; border-radius: 20px;
     background: var(--white); border: 1.5px solid var(--border);
@@ -490,16 +467,9 @@ const STYLES = `
     box-shadow: 0 10px 28px rgba(225,10,111,0.40);
     transform: translateY(-1px);
   }
-
-  /* ══════════════════════════════════════════
-     MOBILE STATS — hidden on desktop
-  ══════════════════════════════════════════ */
   .fc-mobile-stats { display: none; }
   .fc-mobile-spacer { display: none; }
 
-  /* ══════════════════════════════════════════
-     TABLET  ≤ 1024px
-  ══════════════════════════════════════════ */
   @media (max-width: 1024px) {
     .fc-section { padding: 60px 20px; }
     .fc-left-panel { width: 280px; padding: 26px; }
@@ -511,10 +481,6 @@ const STYLES = `
       gap: 16px;
     }
   }
-
-  /* ══════════════════════════════════════════
-     MOBILE  ≤ 768px
-  ══════════════════════════════════════════ */
   @media (max-width: 768px) {
     .fc-section { padding: 44px 16px; }
     .fc-main-row { flex-direction: column; gap: 20px; }
@@ -575,10 +541,6 @@ const STYLES = `
     .fc-strip-title { font-size: 13px; }
     .fc-strip-sub   { font-size: 11.5px; }
   }
-
-  /* ══════════════════════════════════════════
-     SMALL MOBILE  ≤ 480px
-  ══════════════════════════════════════════ */
   @media (max-width: 480px) {
     .fc-section    { padding: 36px 14px; }
     .fc-left-panel { padding: 20px 18px; border-radius: 18px; }
@@ -598,10 +560,6 @@ const STYLES = `
     .fc-bottom-strip    { padding: 16px; border-radius: 14px; }
     .fc-strip-icon-wrap { width: 38px; height: 38px; font-size: 18px; }
   }
-
-  /* ══════════════════════════════════════════
-     EXTRA SMALL  ≤ 360px
-  ══════════════════════════════════════════ */
   @media (max-width: 360px) {
     .fc-section      { padding: 28px 12px; }
     .fc-left-panel   { padding: 18px 16px; }
@@ -615,16 +573,27 @@ const STYLES = `
   }
 `;
 
-/* ─────────────────────────────────────────────
-   COURSE CARD
-   isActive is false for ALL cards when "all" tab
-   is selected — every card renders in normal state
-───────────────────────────────────────────── */
-function CourseCard({ course, isActive, onSelect }) {
+function CourseCard({ course, isActive, onSelect, navigate }) {
+  const handleCardClick = () => {
+    onSelect(course.id);
+    const path = course.slug
+      ? `/courses/${course.category}/${course.slug}`
+      : `/courses/${course.category}`;
+    navigate(path);
+  };
+
+  const handleKnowMore = (e) => {
+    e.stopPropagation();
+    const path = course.slug
+      ? `/courses/${course.category}/${course.slug}`
+      : `/courses/${course.category}`;
+    navigate(path);
+  };
+
   return (
     <div
       className={`fc-card ${isActive ? "active" : ""}`}
-      onClick={() => onSelect(course.id)}
+      onClick={handleCardClick}
     >
       <div className="fc-card-header" style={{ background: course.cardBg }}>
         <div className="fc-card-dot-texture" />
@@ -642,9 +611,7 @@ function CourseCard({ course, isActive, onSelect }) {
           <h3 className="fc-card-title">{course.title}</h3>
           <p className="fc-card-subtitle">{course.subtitle}</p>
         </div>
-
         <div className="fc-divider" />
-
         <ul className="fc-features">
           {course.features.map((f) => (
             <li key={f} className="fc-feature-item">
@@ -653,23 +620,17 @@ function CourseCard({ course, isActive, onSelect }) {
             </li>
           ))}
         </ul>
-
         <div className="fc-highlights">
           {course.highlights.map((h) => (
             <p key={h} className="fc-highlight-text">{h}</p>
           ))}
         </div>
-
         <div className="fc-countries">
           {course.countries.map((c) => (
             <span key={c} className="fc-country-chip">{c}</span>
           ))}
         </div>
-
-        <button
-          className="fc-cta-btn"
-          onClick={(e) => e.stopPropagation()}
-        >
+        <button className="fc-cta-btn" onClick={handleKnowMore}>
           Know More →
         </button>
       </div>
@@ -677,35 +638,49 @@ function CourseCard({ course, isActive, onSelect }) {
   );
 }
 
-/* ─────────────────────────────────────────────
-   MAIN EXPORT
-───────────────────────────────────────────── */
 export default function FeaturedCourses() {
-  /* "all" = no card highlighted; any course id = that card highlighted */
   const [active, setActive] = useState("all");
+  const navigate = useNavigate();
 
   const handleSelect = (id) => setActive(id);
 
-  /* Build tab list: All Courses first, then one per course */
-  const tabs = [ALL_TAB, ...COURSES.map((c) => ({ id: c.id, icon: c.icon, title: c.title }))];
+  const tabs = [
+    ALL_TAB,
+    ...COURSES.map((c) => ({
+      id: c.id,
+      icon: c.icon,
+      title: c.title,
+      category: c.category,
+    })),
+  ];
+
+  const handleTabClick = (tab) => {
+    setActive(tab.id);
+    if (tab.id === "all") {
+      /* ✅ "All" tab scrolls to CoursesGrid, not this section */
+      const section = document.getElementById("courses-grid-section");
+      if (section) section.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+    navigate(`/courses/${tab.category}`);
+  };
 
   return (
     <>
       <style>{STYLES}</style>
 
-      <section className="fc-section">
+      {/* ✅ CHANGED: id is now "featured-courses-section" */}
+      <section className="fc-section" id="featured-courses-section">
         <div className="fc-section-blob1" />
         <div className="fc-section-blob2" />
 
         <div className="fc-inner">
           <div className="fc-main-row">
 
-            {/* ════ LEFT DARK PANEL ════ */}
             <div className="fc-left-panel">
               <div className="fc-left-glow-top" />
               <div className="fc-left-glow-bottom" />
               <div className="fc-left-dots" />
-
               <div style={{ position: "relative", zIndex: 1 }}>
                 <div className="fc-eyebrow">
                   <div className="fc-eyebrow-line" />
@@ -721,8 +696,6 @@ export default function FeaturedCourses() {
                   visa &amp; settlement support — from our expert counsellors.
                 </p>
               </div>
-
-              {/* Globe — hidden on mobile via CSS */}
               <div className="fc-globe-wrap">
                 <div className="fc-globe-inner">
                   <div className="fc-globe-glow" />
@@ -738,8 +711,6 @@ export default function FeaturedCourses() {
                   </div>
                 </div>
               </div>
-
-              {/* Stats — hidden on mobile, replaced by fc-mobile-stats */}
               <div className="fc-stats-grid">
                 {STATS.map((s) => (
                   <div key={s.label} className="fc-stat-cell">
@@ -748,14 +719,10 @@ export default function FeaturedCourses() {
                   </div>
                 ))}
               </div>
-
               <button className="fc-left-cta">Free Counselling →</button>
             </div>
 
-            {/* ════ RIGHT CONTENT ════ */}
             <div className="fc-right">
-
-              {/* Mobile stats — visible only on ≤ 768px */}
               <div className="fc-mobile-stats">
                 {STATS.map((s) => (
                   <div key={s.label} className="fc-mobile-stat-cell">
@@ -765,7 +732,6 @@ export default function FeaturedCourses() {
                 ))}
               </div>
               <div className="fc-mobile-spacer" />
-
               <div className="fc-right-heading-row">
                 <div>
                   <p className="fc-right-eyebrow">Explore Programs</p>
@@ -775,24 +741,17 @@ export default function FeaturedCourses() {
                   </h3>
                 </div>
               </div>
-
-              {/* ── Filter tabs — All Courses + individual course tabs ── */}
               <div className="fc-filter-tabs">
                 {tabs.map((tab) => (
                   <button
                     key={tab.id}
-                    onClick={() => handleSelect(tab.id)}
+                    onClick={() => handleTabClick(tab)}
                     className={`fc-filter-tab ${active === tab.id ? "active" : ""}`}
                   >
                     {tab.icon} {tab.title}
                   </button>
                 ))}
               </div>
-
-              {/* Cards grid
-                  When active === "all"  → no card gets isActive=true (all render normally)
-                  When active === course.id → only that card gets isActive=true
-              */}
               <div className="fc-cards-grid">
                 {COURSES.map((course) => (
                   <CourseCard
@@ -800,13 +759,13 @@ export default function FeaturedCourses() {
                     course={course}
                     isActive={active !== "all" && active === course.id}
                     onSelect={handleSelect}
+                    navigate={navigate}
                   />
                 ))}
               </div>
             </div>
           </div>
 
-          {/* ═══ BOTTOM CTA STRIP ═══ */}
           <div className="fc-bottom-strip">
             <div className="fc-strip-left">
               <div className="fc-strip-icon-wrap">🎓</div>
@@ -819,11 +778,8 @@ export default function FeaturedCourses() {
                 </p>
               </div>
             </div>
-            <button className="fc-strip-expert-btn">
-              Talk to an Expert →
-            </button>
+            <button className="fc-strip-expert-btn">Talk to an Expert →</button>
           </div>
-
         </div>
       </section>
     </>

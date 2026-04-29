@@ -101,217 +101,70 @@ function AboutServices() {
                   }}
                 />
 
-                {/* ══════════════════════════════
-                    TOP-LEFT CORNER CURVES
-                    primary color, dashed → solid
-                ══════════════════════════════ */}
-                <svg
-                  className="absolute top-0 left-0 pointer-events-none"
-                  width="80" height="80" viewBox="0 0 80 80"
-                  style={{ zIndex: 2 }}
-                >
-                  {/* outer arc */}
-                  <path
-                    d="M4,76 Q4,4 76,4"
-                    fill="none"
-                    stroke="var(--primary)"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeDasharray={isHovered ? "none" : "6 5"}
-                    style={{
-                      opacity: isHovered ? 0.55 : 0.7,
-                      transition: "stroke-dasharray 0.35s ease, opacity 0.35s ease",
-                    }}
-                  />
-                  {/* inner arc */}
-                  <path
-                    d="M4,52 Q4,20 36,8"
-                    fill="none"
-                    stroke="var(--primary)"
-                    strokeWidth="1.2"
-                    strokeLinecap="round"
-                    strokeDasharray={isHovered ? "none" : "4 5"}
-                    style={{
-                      opacity: isHovered ? 0.35 : 0.45,
-                      transition: "stroke-dasharray 0.35s ease, opacity 0.35s ease",
-                    }}
-                  />
-                  {/* anchor dot */}
-                  <circle
-                    cx="4" cy="4" r="2.5"
-                    fill="var(--primary)"
-                    style={{ opacity: isHovered ? 0.5 : 0.65 }}
-                  />
+                {/* TOP LEFT SVG */}
+                <svg className="absolute top-0 left-0 pointer-events-none" width="80" height="80" viewBox="0 0 80 80" style={{ zIndex: 2 }}>
+                  <path d="M4,76 Q4,4 76,4" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round"
+                    strokeDasharray={isHovered ? "none" : "6 5"} />
+                  <path d="M4,52 Q4,20 36,8" fill="none" stroke="var(--primary)" strokeWidth="1.2" strokeLinecap="round"
+                    strokeDasharray={isHovered ? "none" : "4 5"} />
+                  <circle cx="4" cy="4" r="2.5" fill="var(--primary)" />
                 </svg>
 
-                {/* ══════════════════════════════
-                    BOTTOM-RIGHT CORNER CURVES
-                ══════════════════════════════ */}
-                <svg
-                  className="absolute bottom-0 right-0 pointer-events-none"
-                  width="80" height="80" viewBox="0 0 80 80"
-                  style={{ zIndex: 2 }}
-                >
-                  {/* outer arc */}
-                  <path
-                    d="M76,4 Q76,76 4,76"
-                    fill="none"
-                    stroke="var(--primary)"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeDasharray={isHovered ? "none" : "6 5"}
-                    style={{
-                      opacity: isHovered ? 0.55 : 0.7,
-                      transition: "stroke-dasharray 0.35s ease, opacity 0.35s ease",
-                    }}
-                  />
-                  {/* inner arc */}
-                  <path
-                    d="M76,28 Q76,60 44,72"
-                    fill="none"
-                    stroke="var(--primary)"
-                    strokeWidth="1.2"
-                    strokeLinecap="round"
-                    strokeDasharray={isHovered ? "none" : "4 5"}
-                    style={{
-                      opacity: isHovered ? 0.35 : 0.45,
-                      transition: "stroke-dasharray 0.35s ease, opacity 0.35s ease",
-                    }}
-                  />
-                  {/* anchor dot */}
-                  <circle
-                    cx="76" cy="76" r="2.5"
-                    fill="var(--primary)"
-                    style={{ opacity: isHovered ? 0.5 : 0.65 }}
-                  />
+                {/* BOTTOM RIGHT SVG */}
+                <svg className="absolute bottom-0 right-0 pointer-events-none" width="80" height="80" viewBox="0 0 80 80" style={{ zIndex: 2 }}>
+                  <path d="M76,4 Q76,76 4,76" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round"
+                    strokeDasharray={isHovered ? "none" : "6 5"} />
+                  <path d="M76,28 Q76,60 44,72" fill="none" stroke="var(--primary)" strokeWidth="1.2" strokeLinecap="round"
+                    strokeDasharray={isHovered ? "none" : "4 5"} />
+                  <circle cx="76" cy="76" r="2.5" fill="var(--primary)" />
                 </svg>
 
-                {/* ── ALL CONTENT ── */}
+                {/* CONTENT */}
                 <div className="relative z-10 flex flex-col items-center">
 
-                  {/* NUMBER */}
-                  <span
-                    className="absolute -top-1 right-0 font-bold tracking-widest select-none"
+                  <span className="absolute -top-1 right-0 font-bold tracking-widest select-none"
                     style={{
                       fontSize: "11px",
                       color: isHovered ? "rgba(255,255,255,0.45)" : "var(--primary)",
                       opacity: isHovered ? 1 : 0.35,
-                      transition: "color 0.3s ease, opacity 0.3s ease",
-                    }}
-                  >
+                    }}>
                     {item.num}
                   </span>
 
-                  {/* ══════════════════════════════
-                      RIGHT DOTS — primary color
-                  ══════════════════════════════ */}
-                  <div
-                    className="absolute right-3 top-1/2 -translate-y-1/2 flex flex-col gap-[5px] pointer-events-none"
-                    style={{ opacity: isHovered ? 0.45 : 0.28 }}
-                  >
-                    {[...Array(6)].map((_, j) => (
-                      <span
-                        key={j}
-                        className="block rounded-full"
-                        style={{
-                          width: "3px", height: "3px",
-                          background: isHovered ? "#ffffff" : "var(--primary)",
-                          transition: "background 0.3s ease",
-                        }}
-                      />
-                    ))}
-                  </div>
-
-                  {/* ══════════════════════════════
-                      BOTTOM DOTS — primary color
-                  ══════════════════════════════ */}
-                  <div
-                    className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-[5px] pointer-events-none"
-                    style={{ opacity: isHovered ? 0.45 : 0.28 }}
-                  >
-                    {[...Array(9)].map((_, j) => (
-                      <span
-                        key={j}
-                        className="block rounded-full"
-                        style={{
-                          width: "3px", height: "3px",
-                          background: isHovered ? "#ffffff" : "var(--primary)",
-                          transition: "background 0.3s ease",
-                        }}
-                      />
-                    ))}
-                  </div>
-
-                  {/* ICON CIRCLE */}
-                  <div
-                    className="w-[60px] h-[60px] flex items-center justify-center rounded-full mb-6"
+                  <div className="w-[60px] h-[60px] flex items-center justify-center rounded-full mb-6"
                     style={{
                       background: isHovered ? "rgba(255,255,255,0.2)" : "var(--primary-light)",
                       border: isHovered
                         ? "1.5px solid rgba(255,255,255,0.35)"
                         : "1.5px solid rgba(225,10,111,0.15)",
-                      transition:
-                        "background 0.35s ease, border-color 0.35s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1)",
-                    }}
-                  >
-                    <Icon
-                      size={24}
-                      style={{
-                        color: isHovered ? "#ffffff" : "var(--primary)",
-                        transition: "color 0.3s ease",
-                      }}
+                    }}>
+                    <Icon size={24}
+                      style={{ color: isHovered ? "#ffffff" : "var(--primary)" }}
                       className="group-hover:scale-110 group-hover:-rotate-6"
                     />
                   </div>
 
-                  {/* TITLE */}
-                  <h3
-                    className="font-semibold mb-3 transition-colors duration-300 group-hover:!text-white"
-                    style={{
-                      fontSize: "16.5px",
-                      color: "var(--dark)",
-                      letterSpacing: "-0.01em",
-                      lineHeight: 1.3,
-                    }}
-                  >
+                  <h3 className="font-semibold mb-3 group-hover:!text-white"
+                    style={{ fontSize: "16.5px", color: "var(--dark)" }}>
                     {item.title}
                   </h3>
 
-                  {/* DESC */}
-                  <p
-                    className="transition-colors duration-300 group-hover:!text-white"
-                    style={{
-                      fontSize: "13.5px",
-                      color: "var(--gray)",
-                      lineHeight: "1.85",
-                    }}
-                  >
+                  <p className="group-hover:!text-white"
+                    style={{ fontSize: "13.5px", color: "var(--gray)", lineHeight: "1.85" }}>
                     {item.desc}
                   </p>
 
-                  {/* DIVIDER → ARROW */}
+                  {/* 🔥 ONLY CHANGE: Arrow removed, divider kept */}
                   <div className="mt-6 flex items-center justify-center">
                     <div
                       className="h-[1.5px] w-8 rounded-full transition-all duration-300 group-hover:w-0 group-hover:opacity-0"
                       style={{ background: "var(--border)" }}
                     />
-                    <div
-                      className="opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300 delay-150"
-                      style={{ color: "rgba(255,255,255,0.85)" }}
-                    >
-                      <svg
-                        width="20" height="20" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor"
-                        strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"
-                      >
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                      </svg>
-                    </div>
                   </div>
 
                 </div>
 
-                {/* BOTTOM PROGRESS BAR */}
+                {/* BOTTOM BAR */}
                 <div
                   className="absolute bottom-0 left-0 h-[3px] w-0 group-hover:w-full rounded-bl-[20px]"
                   style={{
