@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import heroImg from "../../assets/images/hero.avif";
 
@@ -199,11 +199,12 @@ function MobileStation({ item, index }) {
   );
 }
 
+// ── KEY FIX: mutate DOM transform directly — zero React re-renders per frame ──
 function PillSlider({ items }) {
-  const posRef = useRef(0);
-  const rafRef = useRef(null);
-  const paused = useRef(false);
-  const [offset, setOffset] = useState(0);
+  const stripRef = useRef(null);
+  const posRef   = useRef(0);
+  const rafRef   = useRef(null);
+  const paused   = useRef(false);
 
   const totalW   = items.length * STEP;
   const allItems = Array.from({ length: COPIES }, () => items).flat();
@@ -212,9 +213,11 @@ function PillSlider({ items }) {
   useEffect(() => {
     function tick() {
       if (!paused.current) {
-        posRef.current += 2;
+        posRef.current += 1.4;
         if (posRef.current >= totalW) posRef.current -= totalW;
-        setOffset(posRef.current);
+        if (stripRef.current) {
+          stripRef.current.style.transform = `translateX(-${posRef.current}px)`;
+        }
       }
       rafRef.current = requestAnimationFrame(tick);
     }
@@ -239,7 +242,8 @@ function PillSlider({ items }) {
         zIndex: 10, pointerEvents: "none",
         background: "linear-gradient(to left, var(--primary-light) 30%, transparent)",
       }} />
-      <div style={{ transform: `translateX(-${offset}px)`, willChange: "transform" }}>
+      {/* ref lives on the moving wrapper — transform is mutated directly */}
+      <div ref={stripRef} style={{ willChange: "transform" }}>
         <svg width={stripW} height={SVG_H} xmlns="http://www.w3.org/2000/svg">
           <line x1="0" y1={LINE_Y} x2={stripW} y2={LINE_Y}
             stroke="var(--primary)" strokeOpacity="0.18" strokeWidth="1" />
@@ -252,12 +256,12 @@ function PillSlider({ items }) {
   );
 }
 
+// ── KEY FIX: same pattern for mobile ──
 function MobileSlider({ items }) {
-  const posRef  = useRef(0);
-  const rafRef  = useRef(null);
-  const paused  = useRef(false);
-  const startX  = useRef(null);
-  const [offset, setOffset] = useState(0);
+  const stripRef = useRef(null);
+  const posRef   = useRef(0);
+  const rafRef   = useRef(null);
+  const startX   = useRef(null);
 
   const totalW   = items.length * M_STEP;
   const allItems = Array.from({ length: M_COPIES }, () => items).flat();
@@ -265,10 +269,10 @@ function MobileSlider({ items }) {
 
   useEffect(() => {
     function tick() {
-      if (!paused.current) {
-        posRef.current += 1.4;
-        if (posRef.current >= totalW) posRef.current -= totalW;
-        setOffset(posRef.current);
+      posRef.current += 1.0;
+      if (posRef.current >= totalW) posRef.current -= totalW;
+      if (stripRef.current) {
+        stripRef.current.style.transform = `translateX(-${posRef.current}px)`;
       }
       rafRef.current = requestAnimationFrame(tick);
     }
@@ -279,14 +283,15 @@ function MobileSlider({ items }) {
   return (
     <div
       style={{ height: M_SVG_H, position: "relative", overflow: "hidden", width: "100%" }}
-      onTouchStart={(e) => { paused.current = true; startX.current = e.touches[0].clientX; }}
+      onTouchStart={(e) => { startX.current = e.touches[0].clientX; }}
       onTouchMove={(e) => {
         const dx = startX.current - e.touches[0].clientX;
         posRef.current = (posRef.current + dx * 0.4 + totalW) % totalW;
         startX.current = e.touches[0].clientX;
-        setOffset(posRef.current);
+        if (stripRef.current) {
+          stripRef.current.style.transform = `translateX(-${posRef.current}px)`;
+        }
       }}
-      onTouchEnd={() => { paused.current = false; }}
     >
       <div style={{
         position: "absolute", top: 0, left: 0, bottom: 0, width: 40,
@@ -298,7 +303,7 @@ function MobileSlider({ items }) {
         zIndex: 10, pointerEvents: "none",
         background: "linear-gradient(to left, var(--primary-light) 40%, transparent)",
       }} />
-      <div style={{ transform: `translateX(-${offset}px)`, willChange: "transform" }}>
+      <div ref={stripRef} style={{ willChange: "transform" }}>
         <svg width={stripW} height={M_SVG_H} xmlns="http://www.w3.org/2000/svg">
           {allItems.map((item, i) => (
             <MobileStation key={i} item={item} index={i} />
@@ -367,7 +372,7 @@ function CircleImage({
         }}
       />
 
-      {/* ── Rotating conic border: deep pink ↔ soft blush — clearly two colors ── */}
+      {/* ── Rotating conic border ── */}
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
@@ -392,7 +397,7 @@ function CircleImage({
         }}
       />
 
-      {/* ── 4.9 badge: WHITE pill, CENTERED, gold star + dark text ── */}
+      {/* ── 4.9 badge ── */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -415,7 +420,6 @@ function CircleImage({
           fontFamily: "var(--font-main)",
         }}
       >
-        {/* gold star — matches screenshot */}
         <svg width={badgeStarSize} height={badgeStarSize} viewBox="0 0 24 24" fill="#F7941D">
           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
         </svg>
@@ -423,7 +427,7 @@ function CircleImage({
         <span style={{ fontSize: badgeFontSize - 3, color: "var(--gray)" }}>· 2K+ Reviews</span>
       </motion.div>
 
-      {/* ── Left tag: 5000+ Admissions ── */}
+      {/* ── Left tag ── */}
       <motion.div
         initial={{ opacity: 0, scale: 0.75 }}
         whileInView={{ opacity: 1, scale: 1 }}
@@ -441,7 +445,7 @@ function CircleImage({
         5000+ Admissions
       </motion.div>
 
-      {/* ── Right tag: 15+ Countries ── */}
+      {/* ── Right tag ── */}
       <motion.div
         initial={{ opacity: 0, scale: 0.75 }}
         whileInView={{ opacity: 1, scale: 1 }}
