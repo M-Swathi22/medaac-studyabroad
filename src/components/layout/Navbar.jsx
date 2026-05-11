@@ -24,7 +24,7 @@ const navLinks = [
       { label: "Andhra", href: "/study-india/andhra" },
     ],
   },
-  { label: "Study Abroad", href: "/study-abroad" },
+  { label: "Study Abroad", href: "/studyAbroad" },
   {
     label: "MBBS Abroad",
     href: "/mbbs-abroad",
