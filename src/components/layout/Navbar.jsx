@@ -9,8 +9,8 @@ const navLinks = [
     label: "Courses",
     href: "/courses",
     children: [
-      { label: "MBBS", href: "/courses/mbbs" },
-      { label: "Nursing", href: "/courses/nursing" },
+      { label: "MBBS", href:  "/courses/medical/mbbs" },
+      { label: "Nursing", href:  "/courses/nursing/bsc-nursing" },
       { label: "Paramedical", href: "/courses/paramedical" },
     ],
   },
@@ -18,7 +18,7 @@ const navLinks = [
     label: "Study India",
     href: "/study-india",
     children: [
-      { label: "Tamil Nadu", href: "/study-india/tamil-nadu" },
+      { label: "Tamil Nadu", href: "/study-india/tamilnadu"},
       { label: "Kerala", href: "/study-india/kerala" },
       { label: "Karnataka", href: "/study-india/karnataka" },
       { label: "Andhra", href: "/study-india/andhra" },
