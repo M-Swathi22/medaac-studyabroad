@@ -1,382 +1,293 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
-import { useRef, useEffect, useState } from "react";
-import heroBg from "../../assets/images/studyabroad-hero.jpg";
+import heroImg from "../../assets/images/studyabroad-hero.jpg";
 
-/* ─── Floating Particle ─── */
-function Particle({ x, y, size, delay, duration }) {
+/* ─────────────────────────────────────────────
+   COUNTER
+───────────────────────────────────────────── */
+function Counter({ target, suffix = "+" }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+
+  useEffect(() => {
+    if (!inView) return;
+
+    let start = null;
+    const duration = 1500;
+
+    const animate = (time) => {
+      if (!start) start = time;
+
+      const progress = Math.min((time - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+
+      setCount(Math.floor(eased * target));
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [inView, target]);
+
   return (
-    <motion.div
-      className="absolute rounded-full pointer-events-none"
-      style={{
-        left: `${x}%`,
-        top: `${y}%`,
-        width: size,
-        height: size,
-        background: "rgba(225,10,111,0.3)",
-        filter: "blur(1px)",
-      }}
-      animate={{
-        y: [0, -28, 0],
-        opacity: [0.15, 0.5, 0.15],
-        scale: [1, 1.3, 1],
-      }}
-      transition={{ duration, delay, repeat: Infinity, ease: "easeInOut" }}
-    />
+    <span ref={ref}>
+      {count}
+      {suffix}
+    </span>
   );
 }
 
-/* ─── Animated Counter ─── */
-function Counter({ end, suffix = "" }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const [started, setStarted] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting && !started) setStarted(true); },
-      { threshold: 0.5 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [started]);
-
-  useEffect(() => {
-    if (!started) return;
-    let startTime;
-    const duration = 1800;
-    const step = (timestamp) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(eased * end));
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [started, end]);
-
-  return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
-}
-
-/* ─── Destinations ─── */
-const destinations = [
-  { flag: "🇬🇧", name: "United Kingdom" },
-  { flag: "🇨🇦", name: "Canada" },
-  { flag: "🇦🇺", name: "Australia" },
-  { flag: "🇩🇪", name: "Germany" },
-  { flag: "🇺🇸", name: "United States" },
-  { flag: "🇳🇿", name: "New Zealand" },
+/* ─────────────────────────────────────────────
+   STATS
+───────────────────────────────────────────── */
+const STATS = [
+  {
+    target: 5000,
+    suffix: "+",
+    label: "Students Placed",
+  },
+  {
+    target: 100,
+    suffix: "+",
+    label: "Universities",
+  },
+  {
+    target: 30,
+    suffix: "+",
+    label: "Countries",
+  },
+  {
+    target: 98,
+    suffix: "%",
+    label: "Visa Success",
+  },
 ];
 
-/* ─── Main Hero ─── */
+/* ─────────────────────────────────────────────
+   HERO SECTION
+───────────────────────────────────────────── */
 export default function HeroSection() {
-  const containerRef = useRef(null);
-  const [activeDestination, setActiveDestination] = useState(0);
+  const { scrollY } = useScroll();
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"],
-  });
-
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "22%"]);
-  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-
-  /* cycle destination pills */
-  useEffect(() => {
-    const id = setInterval(
-      () => setActiveDestination(prev => (prev + 1) % destinations.length),
-      2500
-    );
-    return () => clearInterval(id);
-  }, []);
-
-  /* stable particles (no re-random on re-render) */
-  const particles = useRef(
-    Array.from({ length: 10 }, (_, i) => ({
-      id: i,
-      x: (i * 11.3 + 5) % 100,
-      y: (i * 17.7 + 8) % 100,
-      size: (i % 4) + 3,
-      delay: (i * 0.6) % 4,
-      duration: (i % 4) + 4,
-    }))
-  ).current;
+  const bgY = useTransform(scrollY, [0, 600], [0, 90]);
 
   return (
     <section
-      ref={containerRef}
-      className="relative flex flex-col items-center justify-center min-h-[100svh] overflow-hidden"
-      style={{ paddingTop: "clamp(100px, 14vh, 140px)" }}
+      className="relative min-h-screen overflow-hidden font-[var(--font-main)]"
+      style={{
+        paddingTop: "120px",
+      }}
     >
+      {/* ───────────────── BACKGROUND IMAGE ───────────────── */}
+      <motion.img
+        src={heroImg}
+        alt="Study Abroad"
+        style={{ y: bgY }}
+        className="absolute inset-0 w-full h-[110%] object-cover scale-105"
+      />
 
-      {/* ── BG IMAGE WITH PARALLAX ── */}
-      <motion.div className="absolute inset-0" style={{ y: bgY }}>
-        <img
-          src={heroBg}
-          alt=""
-          aria-hidden="true"
-          className="w-full h-[115%] object-cover object-center"
-          style={{ transform: "scale(1.05)" }}
-        />
-      </motion.div>
-
-      {/* ── OVERLAYS — light enough so image shows clearly ── */}
-
-      {/* Base dark — 50% opacity only */}
-      <div className="absolute inset-0 bg-black/50" />
-
-      {/* Center-focused vignette: center is brightest, edges darker */}
+      {/* ───────────────── MAIN OVERLAY ───────────────── */}
       <div
         className="absolute inset-0"
         style={{
-          background: `radial-gradient(
-            ellipse 80% 80% at 50% 50%,
-            rgba(0,0,0,0.15) 0%,
-            rgba(0,0,0,0.52) 100%
-          )`,
+          background: `
+            linear-gradient(
+              135deg,
+              rgba(8,8,8,0.78) 0%,
+              rgba(12,12,12,0.62) 35%,
+              rgba(15,15,15,0.42) 60%,
+              rgba(225,10,111,0.16) 100%
+            )
+          `,
         }}
       />
 
-      {/* Bottom fade so stats stay readable */}
+      {/* ───────────────── RADIAL DEPTH ───────────────── */}
       <div
-        className="absolute bottom-0 left-0 right-0 h-48"
-        style={{
-          background: "linear-gradient(to top, rgba(0,0,0,0.55), transparent)",
-        }}
-      />
-
-      {/* Subtle pink bloom at top-center */}
-      <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 50% 35% at 50% 0%, rgba(225,10,111,0.1) 0%, transparent 70%)",
+            "radial-gradient(circle at center, rgba(0,0,0,0.28), rgba(0,0,0,0.55))",
         }}
       />
 
-      {/* Film grain */}
+      {/* ───────────────── PINK GLOW ───────────────── */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[320px] rounded-full blur-3xl"
         style={{
-          opacity: 0.03,
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-          backgroundRepeat: "repeat",
-          backgroundSize: "200px",
-          mixBlendMode: "overlay",
+          background: "rgba(225,10,111,0.16)",
         }}
       />
 
-      {/* ── PARTICLES ── */}
-      {particles.map(p => <Particle key={p.id} {...p} />)}
+      {/* ───────────────── CONTENT ───────────────── */}
+      <div className="relative z-10 min-h-screen flex items-center justify-center px-6">
+        <div className="max-w-4xl text-center">
 
-      {/* ── MAIN CONTENT — fully centered ── */}
-      <motion.div
-        className="relative z-10 w-full max-w-4xl mx-auto px-6 text-center"
-        style={{ y: contentY, opacity }}
-      >
-
-        {/* EYEBROW */}
-        <motion.div
-          className="flex items-center justify-center gap-3 mb-5"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <div
-            className="h-px w-8"
-            style={{ background: "linear-gradient(90deg, transparent, rgba(225,10,111,0.8))" }}
-          />
-          <span
-            className="text-xs font-semibold tracking-[0.22em] uppercase"
-            style={{ color: "rgba(225,10,111,0.95)" }}
-          >
-            Study Abroad Simplified
-          </span>
-          <div
-            className="h-px w-8"
-            style={{ background: "linear-gradient(90deg, rgba(225,10,111,0.8), transparent)" }}
-          />
-        </motion.div>
-
-        {/* HEADLINE */}
-        <motion.h1
-          className="font-black text-white leading-[1.05] tracking-tight"
-          style={{
-            fontSize: "clamp(2.6rem, 7vw, 5rem)",
-            fontFamily: "'Playfair Display', Georgia, serif",
-          }}
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-        >
-          Build Your Future
-          <br />
-          <span
+          {/* SMALL LABEL */}
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full mb-7"
             style={{
-              background: "linear-gradient(135deg, #e10a6f 0%, #ff5aa5 50%, #e10a6f 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-              backgroundSize: "200% auto",
-              animation: "shimmer 4s linear infinite",
-            }}
-          >
-            Beyond Borders.
-          </span>
-        </motion.h1>
-
-        {/* SUBTEXT */}
-        <motion.p
-          className="mt-6 text-base md:text-lg max-w-2xl mx-auto leading-relaxed"
-          style={{ color: "rgba(215,210,220,0.88)" }}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.55 }}
-        >
-          From choosing the right university to securing your visa — we guide every step
-          of your international education journey with precision and care.
-        </motion.p>
-
-        {/* DESTINATION PILLS */}
-        <motion.div
-          className="mt-7 flex flex-wrap justify-center gap-2"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.7 }}
-        >
-          {destinations.map((d, i) => (
-            <motion.button
-              key={d.name}
-              onClick={() => setActiveDestination(i)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
-              animate={{
-                background: activeDestination === i
-                  ? "rgba(225,10,111,0.22)"
-                  : "rgba(255,255,255,0.08)",
-                borderColor: activeDestination === i
-                  ? "rgba(225,10,111,0.55)"
-                  : "rgba(255,255,255,0.15)",
-                color: activeDestination === i
-                  ? "rgba(255,150,200,1)"
-                  : "rgba(200,195,210,0.85)",
-              }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
-              style={{ border: "1px solid", transition: "background 0.3s, color 0.3s" }}
-            >
-              <span>{d.flag}</span>
-              {d.name}
-            </motion.button>
-          ))}
-        </motion.div>
-
-        {/* CTA ROW */}
-        <motion.div
-          className="mt-10 flex flex-wrap justify-center items-center gap-4"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.85 }}
-        >
-          {/* Primary */}
-          <Link to="#countries">
-            <motion.button
-              className="relative px-8 py-3.5 rounded-full text-sm font-bold text-white overflow-hidden"
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              style={{
-                background: "linear-gradient(135deg, #e10a6f, #b50858)",
-                boxShadow: "0 8px 32px rgba(225,10,111,0.4), 0 0 0 1px rgba(225,10,111,0.3)",
-              }}
-            >
-              <span className="relative z-10 flex items-center gap-2">
-                Explore Countries
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </span>
-            </motion.button>
-          </Link>
-
-          {/* Secondary */}
-          <motion.button
-            className="flex items-center gap-2.5 px-8 py-3.5 rounded-full text-sm font-semibold"
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-            style={{
-              border: "1px solid rgba(225,10,111,0.4)",
-              color: "rgba(255,160,200,0.95)",
-              background: "rgba(225,10,111,0.08)",
+              background: "rgba(255,255,255,0.08)",
+              border: "1px solid rgba(255,255,255,0.12)",
               backdropFilter: "blur(8px)",
             }}
           >
+            <div
+              className="w-2 h-2 rounded-full"
+              style={{ background: "var(--primary)" }}
+            />
+
             <span
-              className="flex items-center justify-center w-6 h-6 rounded-full"
-              style={{ background: "rgba(225,10,111,0.2)" }}
+              className="text-[11px] uppercase tracking-[0.2em] font-semibold"
+              style={{
+                color: "rgba(255,255,255,0.88)",
+              }}
             >
-              <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-              </svg>
+              Trusted Global Education Partner
             </span>
-            Book Free Consultation
-          </motion.button>
-        </motion.div>
+          </motion.div>
 
-        {/* STATS ROW */}
-        <motion.div
-          className="mt-14 flex flex-wrap justify-center gap-x-12 gap-y-6"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.05 }}
-        >
-          {[
-            { end: 5000, suffix: "+", label: "Students Placed" },
-            { end: 100, suffix: "+", label: "Partner Universities" },
-            { end: 10, suffix: "+", label: "Countries" },
-            { end: 98, suffix: "%", label: "Visa Success Rate" },
-          ].map((stat, i) => (
-            <div key={i} className="text-center">
-              <p
-                className="text-3xl md:text-4xl font-black tracking-tight"
-                style={{
-                  fontFamily: "'Playfair Display', Georgia, serif",
-                  background:
-                    "linear-gradient(135deg, #ffffff 0%, rgba(255,160,200,0.85) 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                <Counter end={stat.end} suffix={stat.suffix} />
-              </p>
-              <p
-                className="text-xs mt-1 tracking-wide uppercase"
-                style={{ color: "rgba(180,175,195,0.65)" }}
-              >
-                {stat.label}
-              </p>
+          {/* HEADING */}
+          <motion.h1
+            initial={{ opacity: 0, y: 45 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9 }}
+            className="font-bold leading-tight"
+            style={{
+              fontSize: "clamp(42px,6vw,72px)",
+              color: "var(--white)",
+              letterSpacing: "-0.04em",
+              textShadow: "0 5px 24px rgba(0,0,0,0.45)",
+            }}
+          >
+            Build Your Future
+            <br />
+
+            <span
+              style={{
+                color: "var(--primary)",
+              }}
+            >
+              Beyond Borders.
+            </span>
+          </motion.h1>
+
+          {/* SUBTEXT */}
+          <motion.p
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.85, delay: 0.15 }}
+            className="mt-7 max-w-2xl mx-auto text-lg leading-relaxed"
+            style={{
+              color: "rgba(255,255,255,0.86)",
+              textShadow: "0 2px 12px rgba(0,0,0,0.4)",
+            }}
+          >
+            Get access to globally recognized universities, affordable tuition,
+            expert admission guidance, and complete visa support for your
+            international education journey.
+          </motion.p>
+
+          {/* CTA BUTTONS */}
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.85, delay: 0.25 }}
+            className="mt-10 flex justify-center gap-4 flex-wrap"
+          >
+            {/* PRIMARY */}
+            <Link
+              to="/contact"
+              className="px-8 py-3.5 rounded-full text-sm font-semibold transition-all duration-300"
+              style={{
+                background: "var(--primary)",
+                color: "#ffffff",
+                boxShadow: "0 10px 28px rgba(225,10,111,0.32)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "var(--primary-dark)";
+                e.currentTarget.style.transform = "translateY(-2px)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "var(--primary)";
+                e.currentTarget.style.transform = "translateY(0px)";
+              }}
+            >
+              Apply Now
+            </Link>
+
+            {/* SECONDARY */}
+            <a
+              href="#countries"
+              className="px-8 py-3.5 rounded-full text-sm font-semibold transition-all duration-300"
+              style={{
+                border: "1px solid rgba(255,255,255,0.22)",
+                background: "rgba(255,255,255,0.06)",
+                color: "#ffffff",
+                backdropFilter: "blur(10px)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "rgba(255,255,255,0.12)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "rgba(255,255,255,0.06)";
+              }}
+            >
+              Explore Countries
+            </a>
+          </motion.div>
+
+          {/* STATS */}
+          <motion.div
+            initial={{ opacity: 0, y: 35 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.35 }}
+            className="mt-16 flex flex-wrap justify-center gap-5"
+          >
+            {STATS.map((item) => (
               <div
-                className="mt-2 h-px w-10 mx-auto"
+                key={item.label}
+                className="min-w-[160px] px-7 py-5 rounded-3xl text-center"
                 style={{
-                  background:
-                    "linear-gradient(90deg, transparent, rgba(225,10,111,0.6), transparent)",
+                  background: "rgba(255,255,255,0.08)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  backdropFilter: "blur(12px)",
                 }}
-              />
-            </div>
-          ))}
-        </motion.div>
+              >
+                <h3
+                  className="text-3xl font-bold"
+                  style={{
+                    color: "var(--white)",
+                    letterSpacing: "-0.04em",
+                  }}
+                >
+                  <Counter
+                    target={item.target}
+                    suffix={item.suffix}
+                  />
+                </h3>
 
-      </motion.div>
+                <p
+                  className="mt-2 text-[11px] uppercase tracking-[0.18em] font-medium"
+                  style={{
+                    color: "rgba(255,255,255,0.72)",
+                  }}
+                >
+                  {item.label}
+                </p>
+              </div>
+            ))}
+          </motion.div>
 
-      {/* ── SHIMMER KEYFRAME ── */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap');
-        @keyframes shimmer {
-          0%   { background-position: 200% center; }
-          100% { background-position: -200% center; }
-        }
-      `}</style>
-
+        </div>
+      </div>
     </section>
   );
 }

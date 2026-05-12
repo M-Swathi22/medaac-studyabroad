@@ -14,6 +14,8 @@ import StatePage from "./pages/study-india/StatePage";
 import CityPage from "./pages/study-india/CityPage";
 import StudyAbroad from "./pages/studyAbroad/StudyAbroad";
 import CountryPage from "./pages/studyAbroad/CountryPage";
+import MbbsAbroad from "./pages/MbbsAbroad";
+
 
 function App() {
   const location = useLocation(); 
@@ -42,6 +44,7 @@ function App() {
         <Route path="/study-india/:stateId/:cityId" element={<CityPage />} /> 
         <Route path="/studyAbroad" element={<StudyAbroad />} />
         <Route path="/studyAbroad/:countryId" element={<CountryPage />} /> 
+        <Route path="/mbbs-abroad" element={<MbbsAbroad />} />
           
       </Routes>
 

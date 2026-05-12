@@ -2,243 +2,222 @@
 
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { GraduationCap, Users, ArrowUpRight, MapPin } from "lucide-react";
+import {
+  GraduationCap,
+  Users,
+  MapPin,
+} from "lucide-react";
 
 export default function CountryCard({ country, index }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0, y: 45 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.55, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
-      viewport={{ once: true, margin: "-40px" }}
-      className="group relative h-full"
+      transition={{
+        duration: 0.5,
+        delay: index * 0.05,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      viewport={{ once: true }}
+      className="group h-full"
     >
-      <Link to={`/study-abroad/${country.id}`} className="block h-full rounded-[28px]">
-
-        {/* CARD */}
+      <Link
+        to={`/studyabroad/${country.id}`}
+        className="block h-full"
+      >
         <div
-          className="relative h-full flex flex-col overflow-hidden rounded-[28px] transition-all duration-500"
+          className="relative h-full overflow-hidden rounded-[30px] transition-all duration-500 group-hover:-translate-y-2"
           style={{
             background: "var(--white)",
-            border: "1px solid var(--border)",
-            boxShadow: "0 4px 24px rgba(0,0,0,0.07)",
-            transitionTimingFunction: "cubic-bezier(0.22,1,0.36,1)",
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.transform = "translateY(-10px)";
-            e.currentTarget.style.boxShadow = "0 32px 72px rgba(225,10,111,0.2), 0 8px 24px rgba(0,0,0,0.07)";
-            e.currentTarget.style.borderColor = "rgba(225,10,111,0.2)";
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.transform = "translateY(0px)";
-            e.currentTarget.style.boxShadow = "0 4px 24px rgba(0,0,0,0.07)";
-            e.currentTarget.style.borderColor = "var(--border)";
+            border: "1px solid rgba(0,0,0,0.06)",
+            boxShadow: "0 10px 35px rgba(0,0,0,0.06)",
           }}
         >
+          {/* HOVER GLOW */}
+          <div
+            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(225,10,111,0.02) 0%, rgba(225,10,111,0.06) 100%)",
+            }}
+          />
 
-          {/* ── IMAGE ── */}
-          <div className="relative overflow-hidden" style={{ height: "220px", flexShrink: 0 }}>
+          {/* IMAGE */}
+          <div className="relative h-[240px] overflow-hidden">
             <img
               src={country.image}
               alt={country.name}
-              className="w-full h-full object-cover transition-transform duration-700"
-              style={{ transitionTimingFunction: "cubic-bezier(0.22,1,0.36,1)" }}
-              onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.1)"; }}
-              onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; }}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
             />
 
-            {/* Dark gradient */}
+            {/* OVERLAY */}
             <div
               className="absolute inset-0"
               style={{
-                background: "linear-gradient(180deg, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.08) 40%, rgba(10,10,10,0.78) 100%)",
+                background:
+                  "linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.82) 100%)",
               }}
             />
 
-            {/* Top-left: flag + country name */}
+            {/* FLAG */}
             <div
-              className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 rounded-full"
+              className="absolute top-5 left-5 w-14 h-14 rounded-2xl overflow-hidden"
               style={{
-                background: "rgba(255,255,255,0.13)",
+                background: "rgba(255,255,255,0.14)",
                 backdropFilter: "blur(18px)",
                 WebkitBackdropFilter: "blur(18px)",
-                border: "1px solid rgba(255,255,255,0.2)",
+                border: "1px solid rgba(255,255,255,0.18)",
+                boxShadow: "0 8px 24px rgba(0,0,0,0.18)",
               }}
             >
               <img
                 src={country.flag}
-                alt={`${country.name} flag`}
-                className="w-5 h-5 rounded-full object-cover"
-                style={{ boxShadow: "0 0 0 1.5px rgba(255,255,255,0.35)" }}
+                alt={country.name}
+                className="w-full h-full object-cover"
               />
-              <span
-                className="text-white text-xs font-semibold tracking-wide"
-                style={{ fontFamily: "var(--font-main)", textShadow: "0 1px 3px rgba(0,0,0,0.4)" }}
-              >
-                {country.name}
-              </span>
             </div>
 
-            {/* Top-right: arrow button */}
-            <div
-              className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110"
-              style={{
-                background: "var(--primary)",
-                boxShadow: "0 4px 14px rgba(225,10,111,0.5)",
-              }}
-            >
-              <ArrowUpRight size={16} color="#ffffff" />
-            </div>
+            {/* BOTTOM CONTENT */}
+            <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
+              <div>
+                <h3
+                  className="text-[1.5rem] font-bold leading-none"
+                  style={{
+                    color: "#fff",
+                    fontFamily: "var(--font-main)",
+                  }}
+                >
+                  {country.name}
+                </h3>
 
-            {/* Bottom-left: tuition */}
-            <div className="absolute bottom-4 left-4">
+                <div className="flex items-center gap-1.5 mt-2">
+                  <MapPin size={13} color="rgba(255,255,255,0.7)" />
+
+                  <span
+                    className="text-[0.78rem]"
+                    style={{
+                      color: "rgba(255,255,255,0.75)",
+                    }}
+                  >
+                    Study Destination
+                  </span>
+                </div>
+              </div>
+
               <div
-                className="px-3.5 py-1.5 rounded-full text-white text-[0.72rem] font-bold tracking-wide"
+                className="px-4 py-2 rounded-full text-[0.72rem] font-semibold"
                 style={{
-                  background: "rgba(0,0,0,0.5)",
+                  background: "rgba(255,255,255,0.14)",
+                  color: "#fff",
                   backdropFilter: "blur(12px)",
-                  WebkitBackdropFilter: "blur(12px)",
                   border: "1px solid rgba(255,255,255,0.15)",
-                  fontFamily: "var(--font-main)",
                 }}
               >
                 {country.tuition}
               </div>
             </div>
-
-            {/* Bottom-right: location pill */}
-            <div className="absolute bottom-4 right-4 flex items-center gap-1.5">
-              <MapPin size={11} color="rgba(255,255,255,0.7)" />
-              <span
-                className="text-[0.7rem] font-medium"
-                style={{ color: "rgba(255,255,255,0.75)", fontFamily: "var(--font-main)" }}
-              >
-                {country.name}
-              </span>
-            </div>
           </div>
 
-          {/* ── CONTENT ── */}
-          <div
-            className="flex flex-col flex-1 p-5 gap-4"
-            style={{ fontFamily: "var(--font-main)" }}
-          >
-            {/* Hover radial glow */}
-            <div
-              className="absolute bottom-0 right-0 w-56 h-56 rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          {/* CONTENT */}
+          <div className="relative p-6">
+            {/* DESCRIPTION */}
+            <p
+              className="text-[0.92rem] leading-[1.8]"
               style={{
-                background: "radial-gradient(circle, rgba(225,10,111,0.07) 0%, transparent 70%)",
+                color: "var(--gray)",
+                fontFamily: "var(--font-main)",
               }}
-            />
+            >
+              Explore top universities, globally recognized degrees,
+              affordable tuition fees, and better international career
+              opportunities in {country.name}.
+            </p>
 
-            {/* Title + subtitle */}
-            <div className="relative z-10">
-              <h3
-                className="text-[1.15rem] font-bold leading-snug"
-                style={{ color: "var(--dark)", letterSpacing: "-0.025em" }}
-              >
-                Study in {country.name}
-              </h3>
-              <p
-                className="mt-1 text-[0.78rem] leading-relaxed"
-                style={{ color: "var(--gray)" }}
-              >
-                World-class education, rich culture, and exceptional career
-                opportunities await you.
-              </p>
-            </div>
-
-            {/* Divider */}
-            <div
-              className="relative z-10"
-              style={{ height: "1px", background: "var(--border)" }}
-            />
-
-            {/* Stats row */}
-            <div className="relative z-10 flex items-center gap-3">
-
-              {/* Universities */}
+            {/* STATS */}
+            <div className="grid grid-cols-2 gap-4 mt-6">
+              {/* UNIVERSITIES */}
               <div
-                className="flex-1 flex items-center gap-3 rounded-2xl px-4 py-3"
+                className="rounded-2xl p-4"
                 style={{
-                  background: "var(--primary-light)",
-                  border: "1px solid rgba(225,10,111,0.1)",
+                  background: "#FFF4F8",
+                  border: "1px solid rgba(225,10,111,0.08)",
                 }}
               >
-                <div
-                  className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ background: "var(--primary)" }}
-                >
-                  <GraduationCap size={15} color="#ffffff" />
-                </div>
-                <div>
-                  <p
-                    className="text-[1.1rem] font-extrabold leading-none"
-                    style={{ color: "var(--dark)", letterSpacing: "-0.03em" }}
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-11 h-11 rounded-xl flex items-center justify-center"
+                    style={{
+                      background: "var(--primary)",
+                    }}
                   >
-                    {country.universities}+
-                  </p>
-                  <p
-                    className="text-[0.65rem] font-semibold uppercase tracking-widest mt-0.5"
-                    style={{ color: "var(--primary)" }}
-                  >
-                    Universities
-                  </p>
+                    <GraduationCap size={18} color="#fff" />
+                  </div>
+
+                  <div>
+                    <h4
+                      className="text-[1.2rem] font-extrabold leading-none"
+                      style={{ color: "var(--dark)" }}
+                    >
+                      {country.universities}+
+                    </h4>
+
+                    <p
+                      className="text-[0.68rem] font-semibold uppercase tracking-wider mt-1"
+                      style={{ color: "var(--primary)" }}
+                    >
+                      Universities
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              {/* Students */}
+              {/* STUDENTS */}
               <div
-                className="flex-1 flex items-center gap-3 rounded-2xl px-4 py-3"
+                className="rounded-2xl p-4"
                 style={{
                   background: "var(--light)",
                   border: "1px solid var(--border)",
                 }}
               >
-                <div
-                  className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ background: "var(--dark)" }}
-                >
-                  <Users size={15} color="#ffffff" />
-                </div>
-                <div>
-                  <p
-                    className="text-[1.1rem] font-extrabold leading-none"
-                    style={{ color: "var(--dark)", letterSpacing: "-0.03em" }}
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-11 h-11 rounded-xl flex items-center justify-center"
+                    style={{
+                      background: "var(--dark)",
+                    }}
                   >
-                    {country.students}
-                  </p>
-                  <p
-                    className="text-[0.65rem] font-semibold uppercase tracking-widest mt-0.5"
-                    style={{ color: "var(--gray)" }}
-                  >
-                    Students
-                  </p>
+                    <Users size={18} color="#fff" />
+                  </div>
+
+                  <div>
+                    <h4
+                      className="text-[1.2rem] font-extrabold leading-none"
+                      style={{ color: "var(--dark)" }}
+                    >
+                      {country.students}
+                    </h4>
+
+                    <p
+                      className="text-[0.68rem] font-semibold uppercase tracking-wider mt-1"
+                      style={{ color: "var(--gray)" }}
+                    >
+                      Students
+                    </p>
+                  </div>
                 </div>
               </div>
-
             </div>
 
-            {/* Courses */}
-            <div className="relative z-10 flex flex-wrap gap-1.5">
+            {/* COURSES */}
+            <div className="flex flex-wrap gap-2 mt-6">
               {country.courses.map((course, i) => (
                 <span
                   key={i}
-                  className="px-3 py-1 rounded-full text-[0.7rem] font-semibold transition-all duration-200 cursor-default"
+                  className="px-3 py-1.5 rounded-full text-[0.72rem] font-semibold"
                   style={{
-                    background: "var(--light)",
-                    color: "var(--dark-light)",
-                    border: "1px solid var(--border)",
-                  }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.background = "var(--primary-light)";
-                    e.currentTarget.style.color = "var(--primary)";
-                    e.currentTarget.style.borderColor = "rgba(225,10,111,0.3)";
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.background = "var(--light)";
-                    e.currentTarget.style.color = "var(--dark-light)";
-                    e.currentTarget.style.borderColor = "var(--border)";
+                    background: "#FFF4F8",
+                    color: "var(--primary)",
+                    border: "1px solid rgba(225,10,111,0.12)",
                   }}
                 >
                   {course}
@@ -246,39 +225,20 @@ export default function CountryCard({ country, index }) {
               ))}
             </div>
 
-            {/* Footer */}
-            <div
-              className="relative z-10 mt-auto pt-4 flex items-center justify-between"
-              style={{ borderTop: "1px solid var(--border)" }}
-            >
-              <span className="text-[0.72rem] font-medium" style={{ color: "var(--gray)" }}>
-                View all programs
-              </span>
+            {/* BUTTON */}
+            <div className="mt-7">
               <div
-                className="flex items-center gap-1.5 px-4 py-2 rounded-full text-[0.75rem] font-bold transition-all duration-300"
+                className="w-full flex items-center justify-center py-3 rounded-2xl font-semibold text-[0.9rem] transition-all duration-300"
                 style={{
-                  background: "var(--primary-light)",
-                  color: "var(--primary)",
-                  border: "1px solid rgba(225,10,111,0.15)",
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = "var(--primary)";
-                  e.currentTarget.style.color = "#ffffff";
-                  e.currentTarget.style.borderColor = "var(--primary)";
-                  e.currentTarget.style.boxShadow = "0 4px 16px rgba(225,10,111,0.35)";
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = "var(--primary-light)";
-                  e.currentTarget.style.color = "var(--primary)";
-                  e.currentTarget.style.borderColor = "rgba(225,10,111,0.15)";
-                  e.currentTarget.style.boxShadow = "none";
+                  background: "var(--primary)",
+                  color: "#fff",
+                  boxShadow: "0 10px 25px rgba(225,10,111,0.22)",
+                  fontFamily: "var(--font-main)",
                 }}
               >
-                Explore Country
-                <ArrowUpRight size={13} />
+                Explore {country.name}
               </div>
             </div>
-
           </div>
         </div>
       </Link>

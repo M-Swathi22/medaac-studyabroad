@@ -27,7 +27,7 @@ const navLinks = [
   { label: "Study Abroad", href: "/studyAbroad" },
   {
     label: "MBBS Abroad",
-    href: "/mbbs-abroad",
+    href: "/Mbbs-abroad",
     children: [
       { label: "Georgia", href: "/mbbs-abroad/georgia" },
       { label: "Tajikistan", href: "/mbbs-abroad/tajikistan" },
@@ -91,8 +91,8 @@ function Navbar() {
                   className={`relative flex items-center gap-1 px-3 py-1.5 transition duration-200
                   ${
                     isActivePath(item.href)
-                      ? "text-[var(--primary)]"
-                      : "text-[var(--dark)] hover:text-[var(--primary)]"
+                      ? "text-(--primary)"
+                      : "text-[var(--dark)] hover:text-(--primary)"
                   }`}
                 >
                   {item.label}
