@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/autoplay";
@@ -126,16 +127,18 @@ function Courses() {
           <ChevronRight size={20} />
         </button>
 
-        <button
-          className="px-5 py-2 rounded-full text-sm font-medium transition"
-          style={{
-            background: "var(--primary)",
-            color: "var(--white)",
-            border: "1px solid var(--primary)",
-          }}
-        >
-          View All
-        </button>
+        <Link to="/courses">
+  <button
+    className="px-5 py-2 rounded-full text-sm font-medium transition"
+    style={{
+      background: "var(--primary)",
+      color: "var(--white)",
+      border: "1px solid var(--primary)",
+    }}
+  >
+    View All
+  </button>
+</Link>
       </div>
     </div>
 
@@ -199,15 +202,18 @@ function Courses() {
                   </span>
                 </div>
 
-                <button
-                  className="px-5 py-2 rounded-full text-sm transition"
-                  style={{
-                    background: "var(--primary)",
-                    color: "var(--white)",
-                  }}
-                >
-                  Learn More
-                </button>
+                <Link to={course.title === "B.Sc Nursing" ? "/courses/nursing/bsc-nursing" : `/courses/medical/${course.title.toLowerCase().replace(/\s+/g, "-")}`}
+>
+  <button
+    className="px-5 py-2 rounded-full text-sm transition"
+    style={{
+      background: "var(--primary)",
+      color: "var(--white)",
+    }}
+  >
+    Learn More
+  </button>
+</Link>
               </div>
             </div>
 
@@ -259,15 +265,19 @@ function Courses() {
                       </span>
                     </div>
 
-                    <button
-                      className="px-5 py-2 rounded-full text-sm transition"
-                      style={{
-                        background: "var(--primary)",
-                        color: "var(--white)",
-                      }}
-                    >
-                      Learn More
-                    </button>
+                   <Link to={course.title === "B.Sc Nursing" ? "/courses/nursing/bsc-nursing" : `/courses/medical/${course.title.toLowerCase().replace(/\s+/g, "-")}`
+  }
+>
+  <button
+    className="px-5 py-2 rounded-full text-sm transition"
+    style={{
+      background: "var(--primary)",
+      color: "var(--white)",
+    }}
+  >
+    Learn More
+  </button>
+</Link>
                   </div>
                 </div>
 

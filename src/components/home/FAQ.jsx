@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, Minus, X, Phone, MessageCircle } from "lucide-react";
+import { Plus, X, Phone, MessageCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const faqs = [
@@ -26,22 +26,23 @@ function FAQItem({ item, index, isOpen, onToggle }) {
       >
         <div className="flex items-center gap-3">
 
+          {/* NUMBER */}
           <div
-            className="w-6 h-6 flex items-center justify-center rounded-full"
+            className="min-w-[28px] h-[28px] flex items-center justify-center rounded-full text-xs font-bold"
             style={{
-              background: isOpen ? "white" : "transparent",
-              border: isOpen ? "none" : "1px solid #ccc",
+              background: isOpen
+                ? "white"
+                : "rgba(224,17,127,0.08)",
+              color: isOpen
+                ? "var(--primary)"
+                : "var(--primary)",
             }}
           >
-            {isOpen ? (
-              <Minus size={12} color="var(--primary)" />
-            ) : (
-              <Plus size={12} />
-            )}
+            {String(index + 1).padStart(2, "0")}
           </div>
 
           <span
-            className="text-sm sm:text-[15px] font-medium"
+            className="text-sm sm:text-[15px] font-medium text-left"
             style={{
               color: isOpen ? "white" : "var(--dark)",
             }}
@@ -134,7 +135,7 @@ function FAQ() {
             {/* SHAPE */}
             <div className="relative mb-6 sm:mb-8 w-[180px] h-[180px] sm:w-[240px] sm:h-[240px] flex items-center justify-center">
 
-              {/* UPDATED GLOW (FIXED TO YOUR THEME) */}
+              {/* GLOW */}
               <div
                 className="absolute w-full h-full rounded-full blur-2xl"
                 style={{ background: "rgba(224,17,127,0.25)" }}

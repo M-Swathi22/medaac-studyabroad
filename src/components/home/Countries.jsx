@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { ArrowRight, MapPin } from "lucide-react";
 
@@ -179,14 +180,13 @@ function Countries() {
             </div>
           </div>
 
-          <a
-            href="#"
-            className="inline-flex items-center gap-2 px-7 py-3 rounded-full text-sm font-semibold
-                       bg-[var(--primary)] text-white hover:opacity-90 transition"
-          >
-            View All Countries <ArrowRight size={16} />
-          </a>
-
+        <Link
+  to="/studyAbroad"
+  className="inline-flex items-center gap-2 px-7 py-3 rounded-full text-sm font-semibold
+             bg-[var(--primary)] text-white hover:opacity-90 transition"
+>
+  View All Countries <ArrowRight size={16} />
+</Link>
         </div>
       </div>
 

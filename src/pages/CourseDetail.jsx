@@ -374,38 +374,185 @@ function FullCoursePage({ selected, category, onBack }) {
   );
 
   const DestinationsContent = () => (
-    <div style={{ animation:"fadeSlideIn 0.35s ease" }}>
-      <SectionHeading>Top Study Destinations</SectionHeading>
-      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(230px, 1fr))", gap:18 }}>
-        {(selected.destinations || [
-          { country:"Russia",      flag:"🇷🇺", note:"Largest MBBS destination globally",  students:"12,000+" },
-          { country:"Philippines", flag:"🇵🇭", note:"US-pattern curriculum",              students:"8,500+"  },
-          { country:"Kazakhstan",  flag:"🇰🇿", note:"Affordable & WHO listed",            students:"6,200+"  },
-          { country:"Georgia",     flag:"🇬🇪", note:"European standard education",        students:"4,800+"  },
-          { country:"Bangladesh",  flag:"🇧🇩", note:"Similar curriculum, low cost",       students:"3,100+"  },
-          { country:"Nepal",       flag:"🇳🇵", note:"SAARC region preference",            students:"2,400+"  },
-        ]).map((d, i) => (
-          <div key={i} className="cd-dest-card" style={{ padding:"24px 20px", borderRadius:20, background:"var(--white)", border:"1.5px solid var(--border)", boxShadow:"0 4px 20px rgba(0,0,0,0.05)", position:"relative", overflow:"hidden", display:"flex", flexDirection:"column", gap:10 }}>
-            <div className="cd-dest-topbar" style={{ position:"absolute", top:0, left:0, right:0, height:3, background:"linear-gradient(90deg, var(--primary), #ff6eb0)", borderRadius:"20px 20px 0 0", transform:"scaleX(0)", transformOrigin:"left", transition:"transform 0.3s ease" }} />
-            <div style={{ display:"flex", alignItems:"center", gap:12 }}>
-              <span style={{ fontSize:30, lineHeight:1, filter:"drop-shadow(0 2px 4px rgba(0,0,0,0.12))" }}>{d.flag}</span>
-              <div>
-                <p style={{ fontFamily:"var(--font-main)", fontWeight:700, fontSize:16, color:"var(--dark)", margin:0, lineHeight:1.2 }}>{d.country}</p>
-                {d.students && <p style={{ fontFamily:"var(--font-main)", fontSize:11, fontWeight:600, color:"var(--primary)", margin:"3px 0 0", letterSpacing:"0.04em" }}>{d.students} Indian students</p>}
-              </div>
-            </div>
-            <div style={{ height:1, background:"var(--border)" }} />
-            <p style={{ fontFamily:"var(--font-main)", fontSize:13, color:"var(--gray)", lineHeight:1.6, margin:0 }}>{d.note}</p>
-            <div className="cd-dest-learn" style={{ display:"inline-flex", alignItems:"center", gap:5, color:"var(--primary)", fontFamily:"var(--font-main)", fontSize:12, fontWeight:700, letterSpacing:"0.04em", opacity:0, transition:"opacity 0.25s ease" }}>
-              Learn more
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ width:12, height:12 }}><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+  <div style={{ animation: "fadeSlideIn 0.35s ease" }}>
+    
+    <SectionHeading>
+      Top Study Destinations
+    </SectionHeading>
+
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))",
+        gap: 18,
+      }}
+    >
+
+      {[
+        {
+          country: "Georgia",
+          flag: "🇬🇪",
+          note: "European standard medical education with affordable tuition fees",
+          students: "4,800+",
+          path: "/mbbs-abroad/georgia",
+        },
+
+        {
+          country: "Tajikistan",
+          flag: "🇹🇯",
+          note: "Budget-friendly MBBS destination with growing popularity",
+          students: "2,500+",
+          path: "/mbbs-abroad/tajikistan",
+        },
+
+        {
+          country: "Uzbekistan",
+          flag: "🇺🇿",
+          note: "Modern universities with globally recognized medical programs",
+          students: "3,900+",
+          path: "/mbbs-abroad/uzbekistan",
+        },
+      ].map((d, i) => (
+
+        <div
+          key={i}
+          className="cd-dest-card"
+          style={{
+            padding: "24px 20px",
+            borderRadius: 20,
+            background: "var(--white)",
+            border: "1.5px solid var(--border)",
+            boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
+            position: "relative",
+            overflow: "hidden",
+            display: "flex",
+            flexDirection: "column",
+            gap: 10,
+          }}
+        >
+
+          <div
+            className="cd-dest-topbar"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: 3,
+              background:
+                "linear-gradient(90deg, var(--primary), #ff6eb0)",
+              borderRadius: "20px 20px 0 0",
+              transform: "scaleX(0)",
+              transformOrigin: "left",
+              transition: "transform 0.3s ease",
+            }}
+          />
+
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+            }}
+          >
+
+            <span
+              style={{
+                fontSize: 30,
+                lineHeight: 1,
+                filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.12))",
+              }}
+            >
+              {d.flag}
+            </span>
+
+            <div>
+              <p
+                style={{
+                  fontFamily: "var(--font-main)",
+                  fontWeight: 700,
+                  fontSize: 16,
+                  color: "var(--dark)",
+                  margin: 0,
+                  lineHeight: 1.2,
+                }}
+              >
+                {d.country}
+              </p>
+
+              <p
+                style={{
+                  fontFamily: "var(--font-main)",
+                  fontSize: 11,
+                  fontWeight: 600,
+                  color: "var(--primary)",
+                  margin: "3px 0 0",
+                  letterSpacing: "0.04em",
+                }}
+              >
+                {d.students} Indian students
+              </p>
             </div>
           </div>
-        ))}
-      </div>
-    </div>
-  );
 
+          <div
+            style={{
+              height: 1,
+              background: "var(--border)",
+            }}
+          />
+
+          <p
+            style={{
+              fontFamily: "var(--font-main)",
+              fontSize: 13,
+              color: "var(--gray)",
+              lineHeight: 1.6,
+              margin: 0,
+            }}
+          >
+            {d.note}
+          </p>
+
+          <a
+            href={d.path}
+            className="cd-dest-learn"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 5,
+              color: "var(--primary)",
+              fontFamily: "var(--font-main)",
+              fontSize: 12,
+              fontWeight: 700,
+              letterSpacing: "0.04em",
+              textDecoration: "none",
+              marginTop: "auto",
+              paddingTop: 8,
+            }}
+          >
+            Learn more
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{ width: 12, height: 12 }}
+            >
+              <line x1="5" y1="12" x2="19" y2="12" />
+
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </a>
+
+        </div>
+      ))}
+    </div>
+  </div>
+);
   return (
     <>
       <CourseNavRow category={category} courseTitle={selected.title} onBack={onBack} />

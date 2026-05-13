@@ -57,9 +57,9 @@ export default function AdmissionProcess() {
   const ActiveIcon = steps[active].icon;
   const isThrottled = useRef(false);
 
-  /* ─── Wheel on card → change step ─── */
+  /* ─── Wheel on SECTION → change step ─── */
   useEffect(() => {
-    const el = cardRef.current;
+    const el = sectionRef.current;
     if (!el) return;
 
     const onWheel = (e) => {
@@ -275,7 +275,6 @@ export default function AdmissionProcess() {
             margin:"0 auto",
             overflow:"hidden",
             borderRadius:"28px",
-            cursor:"grab",
             userSelect:"none",
             touchAction:"pan-y",
           }}
@@ -401,7 +400,7 @@ export default function AdmissionProcess() {
                     fontFamily:"var(--font-main)", fontWeight:500,
                   }}>
                     <span>⟵</span>
-                    <span className="ap-desktop-hint">Scroll over card</span>
+                    <span className="ap-desktop-hint">Scroll anywhere</span>
                     <span className="ap-mobile-hint">Swipe card</span>
                     <span>⟶</span>
                   </div>

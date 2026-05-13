@@ -14,7 +14,8 @@ import StatePage from "./pages/study-india/StatePage";
 import CityPage from "./pages/study-india/CityPage";
 import StudyAbroad from "./pages/studyAbroad/StudyAbroad";
 import CountryPage from "./pages/studyAbroad/CountryPage";
-import MbbsAbroad from "./pages/MbbsAbroad";
+import MbbsAbroad from "./pages/mbbsAbroad/MbbsAbroad";
+import MbbsCountryPage from "./pages/mbbsAbroad/MbbsCountryPage";
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
         <Route path="/studyAbroad" element={<StudyAbroad />} />
         <Route path="/studyAbroad/:countryId" element={<CountryPage />} /> 
         <Route path="/mbbs-abroad" element={<MbbsAbroad />} />
+        <Route path="/mbbs-abroad/:country" element={<MbbsCountryPage />}/>
           
       </Routes>
 
