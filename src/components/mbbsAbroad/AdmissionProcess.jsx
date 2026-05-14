@@ -48,7 +48,7 @@ const steps = [
   },
 ];
 
-export default function AdmissionProcess() {
+ function AdmissionProcess() {
   const [active, setActive] = useState(0);
   const [direction, setDirection] = useState(1);
   const sectionRef = useRef(null);
@@ -447,3 +447,4 @@ export default function AdmissionProcess() {
     </section>
   );
 }
+export default AdmissionProcess;

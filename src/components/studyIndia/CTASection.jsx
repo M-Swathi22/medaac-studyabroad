@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
-export default function CTASection() {
+ function CTASection() {
   return (
     <section
       className="py-20"
@@ -96,3 +96,4 @@ export default function CTASection() {
     </section>
   );
 }
+export default CTASection;

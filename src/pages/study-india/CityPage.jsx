@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { STUDY_INDIA_DATA } from "../../data/studyIndiaData";
 import CollegeCard from "../../components/studyIndia/CollegeCard";
 
-export default function CityPage() {
+ function CityPage() {
   const { stateId, cityId } = useParams();
   const navigate = useNavigate();
 
@@ -529,3 +529,4 @@ export default function CityPage() {
     </div>
   );
 }
+export default CityPage;

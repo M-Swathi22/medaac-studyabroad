@@ -262,7 +262,7 @@ function StepCard({ item, index }) {
 /* ─────────────────────────────────────────────
    SECTION
 ───────────────────────────────────────────── */
-export default function StudyProcess() {
+ function StudyProcess() {
   return (
     <section
       className="relative overflow-hidden"
@@ -408,3 +408,4 @@ export default function StudyProcess() {
     </section>
   );
 }
+export default StudyProcess;

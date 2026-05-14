@@ -1,7 +1,7 @@
 // CollegeCard.jsx
 import { useState } from "react";
 
-export default function CollegeCard({ college, onClick, index = 0 }) {
+ function CollegeCard({ college, onClick, index = 0 }) {
   const [hovered, setHovered]     = useState(false);
   const [activeCourse, setActive] = useState(null);
 
@@ -248,3 +248,4 @@ export default function CollegeCard({ college, onClick, index = 0 }) {
     </>
   );
 }
+export default CollegeCard;

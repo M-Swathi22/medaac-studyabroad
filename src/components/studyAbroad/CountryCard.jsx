@@ -8,7 +8,7 @@ import {
   MapPin,
 } from "lucide-react";
 
-export default function CountryCard({ country, index }) {
+ function CountryCard({ country, index }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 45 }}
@@ -245,3 +245,4 @@ export default function CountryCard({ country, index }) {
     </motion.div>
   );
 }
+export default CountryCard;

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, PhoneCall } from "lucide-react";
 import { Link } from "react-router-dom";
 
-export default function StudyAbroadCTA() {
+ function StudyAbroadCTA() {
   return (
     <section
       className="relative py-24 overflow-hidden"
@@ -175,3 +175,4 @@ export default function StudyAbroadCTA() {
     </section>
   );
 }
+export default StudyAbroadCTA;

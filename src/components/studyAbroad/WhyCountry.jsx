@@ -80,7 +80,7 @@ function FeatureCard({ item, index }) {
   );
 }
 
-export default function WhyCountry({ country }) {
+ function WhyCountry({ country }) {
   const headerRef = useRef(null);
   const headerInView = useInView(headerRef, { once: true });
 
@@ -521,3 +521,4 @@ export default function WhyCountry({ country }) {
     </>
   );
 }
+export default WhyCountry;

@@ -382,7 +382,7 @@ function CountryCard({ country }) {
   );
 }
 
-export default function CountrySelector() {
+ function CountrySelector() {
   return (
     <section
       id="countries"
@@ -473,3 +473,4 @@ export default function CountrySelector() {
     </section>
   );
 }
+export default CountrySelector;

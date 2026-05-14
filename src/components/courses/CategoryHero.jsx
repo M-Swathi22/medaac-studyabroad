@@ -1,4 +1,4 @@
-export default function CategoryHero({ title, description }) {
+ function CategoryHero({ title, description }) {
   return (
     <div className="py-20 text-center bg-gradient-to-r from-pink-600 to-purple-700 text-white">
       <h1 className="text-4xl font-bold">{title}</h1>
@@ -8,3 +8,4 @@ export default function CategoryHero({ title, description }) {
     </div>
   );
 }
+export default CtegoryHero;

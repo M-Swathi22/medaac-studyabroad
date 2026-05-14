@@ -194,7 +194,7 @@ function Card({ item, index }) {
   );
 }
 
-export default function WhyIndia() {
+ function WhyIndia() {
   return (
     <>
       <style>{`
@@ -362,3 +362,4 @@ export default function WhyIndia() {
     </>
   );
 }
+export default WhyIndia;

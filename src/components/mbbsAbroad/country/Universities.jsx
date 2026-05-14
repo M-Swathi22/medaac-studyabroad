@@ -1,6 +1,6 @@
 import PremiumUniversityCards from "../../common/PremiumUniversityCards";
 
-export default function Universities({ countryData }) {
+ function Universities({ countryData }) {
   return (
     <section>
       <PremiumUniversityCards
@@ -10,3 +10,4 @@ export default function Universities({ countryData }) {
     </section>
   );
 }
+export default Universities;

@@ -70,7 +70,7 @@ const STATS = [
 /* ─────────────────────────────────────────────
    HERO SECTION
 ───────────────────────────────────────────── */
-export default function HeroSection() {
+ function HeroSection() {
   const { scrollY } = useScroll();
 
   const bgY = useTransform(scrollY, [0, 600], [0, 90]);
@@ -291,3 +291,4 @@ export default function HeroSection() {
     </section>
   );
 }
+export default HeroSection;

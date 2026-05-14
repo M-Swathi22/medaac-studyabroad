@@ -506,7 +506,7 @@ function StateCard({ state, onClick }) {
   );
 }
 
-export default function StateSelector() {
+ function StateSelector() {
   const navigate = useNavigate();
 
   return (
@@ -601,3 +601,4 @@ export default function StateSelector() {
     </section>
   );
 }
+export default StateSelector;

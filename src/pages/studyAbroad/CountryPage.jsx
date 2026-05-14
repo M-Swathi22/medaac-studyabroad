@@ -3,13 +3,14 @@
 import { useParams } from "react-router-dom";
 
 import { COUNTRIES } from "../../data/studyAbroadData";
+import AnimatedSection from "../../components/AnimatedSection";
 
 import CountryHero from "../../components/studyAbroad/CountryHero";
 import WhyCountry from "../../components/studyAbroad/WhyCountry";
 import UniversityList from "../../components/studyAbroad/UniversityList";
 import CountryCTA from "../../components/studyAbroad/CountryCTA";
 
-export default function CountryPage() {
+ function CountryPage() {
   const { countryId } = useParams();
 
   const country = COUNTRIES.find(
@@ -29,9 +30,16 @@ export default function CountryPage() {
   return (
     <>
       <CountryHero country={country} />
-      <WhyCountry country={country} />
-      <UniversityList country={country} />
-      <CountryCTA country={country} />
+      <AnimatedSection>
+        <WhyCountry country={country} />
+      </AnimatedSection>
+      <AnimatedSection>
+        <UniversityList country={country} />
+      </AnimatedSection>
+      <AnimatedSection>
+        <CountryCTA country={country} />
+      </AnimatedSection>
     </>
   );
 }
+export default CountryPage;

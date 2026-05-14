@@ -22,7 +22,7 @@ const CATEGORY_META = {
   },
 };
 
-export default function CourseCategory() {
+ function CourseCategory() {
   const { category } = useParams();
   const navigate = useNavigate();
 
@@ -368,3 +368,4 @@ export default function CourseCategory() {
     </div>
   );
 }
+export default CourseCategory;

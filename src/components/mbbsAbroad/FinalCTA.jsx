@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-export default function FinalCTA() {
+ function FinalCTA() {
   return (
     <section
       style={{
@@ -189,3 +189,5 @@ export default function FinalCTA() {
     </section>
   );
 }
+
+export default FinalCTA;

@@ -34,7 +34,7 @@ const STATS = [
   { target: 98, suffix: "%", label: "Placement Rate" },
 ];
 
-export default function HeroSection() {
+ function HeroSection() {
 
   const { scrollY } = useScroll();
   const yBg = useTransform(scrollY, [0, 500], [0, 80]);
@@ -168,3 +168,4 @@ export default function HeroSection() {
     </section>
   );
 }
+export default HeroSection;

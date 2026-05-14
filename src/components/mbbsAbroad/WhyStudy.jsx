@@ -268,7 +268,7 @@ function Card({ item, index }) {
   );
 }
 
-export default function WhyStudy() {
+ function WhyStudy() {
   const headerRef = useRef(null);
   const headerInView = useInView(headerRef, { once: true, margin: "-80px" });
 
@@ -472,3 +472,4 @@ export default function WhyStudy() {
     </section>
   );
 }
+export default WhyStudy;

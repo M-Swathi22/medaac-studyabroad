@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, GraduationCap, Globe2, ShieldCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 
-export default function CountryHero({ country, image, description, stats }) {
+ function CountryHero({ country, image, description, stats }) {
   return (
     <section
       style={{
@@ -282,3 +282,4 @@ export default function CountryHero({ country, image, description, stats }) {
     </section>
   );
 }
+export default CountryHero;

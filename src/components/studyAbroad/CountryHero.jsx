@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import { GraduationCap, Users, Globe2, ArrowRight, ShieldCheck, MapPin } from "lucide-react";
+import { GraduationCap, Users, Globe2, ArrowRight, ShieldCheck } from "lucide-react";
 
-export default function CountryHero({ country }) {
+function CountryHero({ country }) {
   return (
     <section
       style={{
@@ -15,24 +15,6 @@ export default function CountryHero({ country }) {
       }}
     >
       <style>{`
-        /* ── Floating particles ── */
-        @keyframes floatUp {
-          0%   { transform: translateY(0px); opacity: 0; }
-          20%  { opacity: 0.5; }
-          80%  { opacity: 0.2; }
-          100% { transform: translateY(-100px); opacity: 0; }
-        }
-
-        .hero-particle {
-          position: absolute;
-          width: 3px;
-          height: 3px;
-          border-radius: 50%;
-          background: var(--primary);
-          animation: floatUp linear infinite;
-          pointer-events: none;
-        }
-
         /* ── Stat card ── */
         .stat-card {
           display: flex;
@@ -251,35 +233,7 @@ export default function CountryHero({ country }) {
               "linear-gradient(to right, rgba(10,10,10,0.5) 0%, transparent 55%, rgba(10,10,10,0.25) 100%)",
           }}
         />
-        {/* Pink tint bottom */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: "30%",
-            background: "linear-gradient(to top, rgba(225,10,111,0.05) 0%, transparent 100%)",
-            pointerEvents: "none",
-          }}
-        />
       </div>
-
-      {/* ── PARTICLES ── */}
-      {[...Array(6)].map((_, i) => (
-        <div
-          key={i}
-          className="hero-particle"
-          style={{
-            left: `${14 + i * 14}%`,
-            bottom: `${8 + (i % 3) * 6}%`,
-            animationDuration: `${4.5 + i * 1.1}s`,
-            animationDelay: `${i * 0.9}s`,
-            width: i % 2 === 0 ? "3px" : "2px",
-            height: i % 2 === 0 ? "3px" : "2px",
-          }}
-        />
-      ))}
 
       {/* ── CONTENT ── */}
       <div
@@ -394,27 +348,9 @@ export default function CountryHero({ country }) {
               <span
                 style={{
                   color: "var(--primary)",
-                  position: "relative",
-                  display: "inline-block",
                 }}
               >
                 {country.name}
-                <motion.span
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ duration: 0.6, delay: 0.65 }}
-                  style={{
-                    position: "absolute",
-                    bottom: "-4px",
-                    left: 0,
-                    right: 0,
-                    height: "3px",
-                    background: "linear-gradient(to right, var(--primary), rgba(225,10,111,0.25))",
-                    borderRadius: "2px",
-                    transformOrigin: "left",
-                    display: "block",
-                  }}
-                />
               </span>
             </motion.h1>
 
@@ -559,21 +495,9 @@ export default function CountryHero({ country }) {
             ))}
           </motion.div>
         </div>
-
-        {/* Divider */}
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 0.9, delay: 0.55 }}
-          style={{
-            marginTop: "3.5rem",
-            height: "1px",
-            background:
-              "linear-gradient(to right, rgba(225,10,111,0.6), rgba(255,255,255,0.06), transparent)",
-            transformOrigin: "left",
-          }}
-        />
       </div>
     </section>
   );
 }
+
+export default CountryHero;

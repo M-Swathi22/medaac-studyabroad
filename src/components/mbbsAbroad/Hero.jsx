@@ -15,7 +15,7 @@ const fade = (delay = 0) => ({
   transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1], delay },
 });
 
-export default function Hero() {
+ function Hero() {
   return (
     <section
       style={{
@@ -283,3 +283,4 @@ export default function Hero() {
     </section>
   );
 }
+export default Hero;

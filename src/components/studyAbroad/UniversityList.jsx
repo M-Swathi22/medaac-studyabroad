@@ -2,7 +2,26 @@
 
 import { motion } from "framer-motion";
 
-export default function UniversityList({ country }) {
+/* STAT CELL */
+function StatCell({ label, value, border = "", highlight = false }) {
+  return (
+    <div className={`p-3.5 ${border} border-black/[0.07]`}>
+      <p className="text-[11px] text-gray-400 mb-1">
+        {label}
+      </p>
+
+      <p
+        className={`text-sm font-semibold ${
+          highlight ? "text-[var(--primary)]" : "text-[var(--dark)]"
+        }`}
+      >
+        {value}
+      </p>
+    </div>
+  );
+}
+
+function UniversityList({ country }) {
   return (
     <section
       className="relative overflow-hidden py-20 lg:py-28"
@@ -168,22 +187,5 @@ export default function UniversityList({ country }) {
     </section>
   );
 }
+export default  UniversityList;
 
-/* STAT CELL */
-function StatCell({ label, value, border = "", highlight = false }) {
-  return (
-    <div className={`p-3.5 ${border} border-black/[0.07]`}>
-      <p className="text-[11px] text-gray-400 mb-1">
-        {label}
-      </p>
-
-      <p
-        className={`text-sm font-semibold ${
-          highlight ? "text-[var(--primary)]" : "text-[var(--dark)]"
-        }`}
-      >
-        {value}
-      </p>
-    </div>
-  );
-}

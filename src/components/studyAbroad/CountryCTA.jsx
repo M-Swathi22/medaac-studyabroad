@@ -1,6 +1,6 @@
 // src/components/studyAbroad/CountryCTA.jsx
 
-export default function CountryCTA({ country }) {
+ function CountryCTA({ country }) {
   return (
     <section
       className="py-24"
@@ -56,3 +56,4 @@ export default function CountryCTA({ country }) {
     </section>
   );
 }
+export default CountryCTA;

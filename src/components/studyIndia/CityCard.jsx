@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-export default function CityCard({ city, stateId }) {
+ function CityCard({ city, stateId }) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -159,3 +159,4 @@ export default function CityCard({ city, stateId }) {
     </Link>
   );
 }
+export default CityCard;

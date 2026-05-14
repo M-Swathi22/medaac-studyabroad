@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 
 /* DATA */
 import { COUNTRY_DATA } from "../../data/mbbsAbroadData";
+import AnimatedSection from "../../components/AnimatedSection";
 
 /* Components */
 import CountryHero from "../../components/mbbsAbroad/country/CountryHero";
@@ -47,27 +48,35 @@ export default function CountryPage() {
       />
 
       {/* WHY COUNTRY */}
-      <WhyCountry
-        country={data.country}
-        title={data.whyTitle}
-        description={data.whyDescription}
-        benefits={data.benefits}
-      />
+      <AnimatedSection>
+        <WhyCountry
+          country={data.country}
+          title={data.whyTitle}
+          description={data.whyDescription}
+          benefits={data.benefits}
+        />
+      </AnimatedSection>
 
       {/* UNIVERSITIES */}
-      <Universities countryData={data} />
+      <AnimatedSection>
+        <Universities countryData={data} />
+      </AnimatedSection>
 
       {/* STUDENT LIFE */}
-      <StudentLife
-        country={data.country}
-        title={data.studentLifeTitle}
-        description={data.studentLifeDescription}
+      <AnimatedSection>
+        <StudentLife
+          country={data.country}
+          title={data.studentLifeTitle}
+          description={data.studentLifeDescription}
         points={data.studentLifePoints}
         image={data.studentLifeImage}
       />
+      </AnimatedSection>
 
       {/* CTA */}
-      <CountryCTA country={data.country} />
+      <AnimatedSection>
+        <CountryCTA country={data.country} />
+      </AnimatedSection>
     </>
   );
 }

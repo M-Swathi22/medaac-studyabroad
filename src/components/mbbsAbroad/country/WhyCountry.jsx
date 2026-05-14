@@ -32,7 +32,7 @@ const ACCENTS = [
   "#d10867",
 ];
 
-export default function WhyCountry({
+ function WhyCountry({
   country,
   title,
   description,
@@ -421,3 +421,5 @@ export default function WhyCountry({
     </section>
   );
 }
+
+export default WhyCountry;

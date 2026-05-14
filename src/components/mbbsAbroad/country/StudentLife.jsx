@@ -16,7 +16,7 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1], delay },
 });
 
-export default function StudentLife({
+ function StudentLife({
   country,
   title,
   description,
@@ -418,3 +418,4 @@ export default function StudentLife({
     </section>
   );
 }
+export default StudentLife;

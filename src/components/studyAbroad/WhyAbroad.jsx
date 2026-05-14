@@ -522,7 +522,7 @@ function FeatureCard({ icon: Icon, title, desc, num, tag, index }) {
 /* ─────────────────────────────────────────────────────────────
    SECTION
 ───────────────────────────────────────────────────────────── */
-export default function WhyAbroad() {
+ function WhyAbroad() {
   return (
     <section className="relative py-20 md:py-28 overflow-hidden bg-white">
 
@@ -641,3 +641,5 @@ export default function WhyAbroad() {
     </section>
   );
 }
+
+export default WhyAbroad;

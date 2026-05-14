@@ -638,7 +638,7 @@ function CourseCard({ course, isActive, onSelect, navigate }) {
   );
 }
 
-export default function FeaturedCourses() {
+ function FeaturedCourses() {
   const [active, setActive] = useState("all");
   const navigate = useNavigate();
 
@@ -785,3 +785,4 @@ export default function FeaturedCourses() {
     </>
   );
 }
+export default FeaturedCourses;

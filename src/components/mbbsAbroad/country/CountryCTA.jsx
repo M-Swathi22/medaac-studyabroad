@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-export default function CountryCTA({ country }) {
+ function CountryCTA({ country }) {
   return (
     <section
       style={{
@@ -189,3 +189,4 @@ export default function CountryCTA({ country }) {
     </section>
   );
 }
+export default CountryCTA;

@@ -87,7 +87,7 @@ function CourseCard({ course }) {
   );
 }
 
-export default function CoursesGrid() {
+ function CoursesGrid() {
   return (
     <>
       <style>{`
@@ -233,3 +233,5 @@ export default function CoursesGrid() {
     </>
   );
 }
+
+export default CoursesGrid;

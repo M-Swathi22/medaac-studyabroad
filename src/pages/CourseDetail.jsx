@@ -661,7 +661,7 @@ function CourseCtaSection({ onEnquire }) {
 /* ══════════════════════════════════════════════════
    MAIN EXPORT
 ══════════════════════════════════════════════════ */
-export default function CourseDetail() {
+ function CourseDetail() {
   const { category, course } = useParams();
   const navigate = useNavigate();
   const heroRef = useRef(null);
@@ -836,3 +836,4 @@ export default function CourseDetail() {
     </div>
   );
 }
+export default CourseDetail;

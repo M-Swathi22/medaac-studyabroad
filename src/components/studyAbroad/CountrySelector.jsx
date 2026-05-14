@@ -8,7 +8,7 @@ import { Globe2, ChevronDown, ChevronUp } from "lucide-react";
 
 const INITIAL_COUNT = 6;
 
-export default function CountrySelector() {
+ function CountrySelector() {
   const [showAll, setShowAll] = useState(false);
 
   const visibleCountries = showAll ? COUNTRIES : COUNTRIES.slice(0, INITIAL_COUNT);
@@ -176,3 +176,4 @@ export default function CountrySelector() {
     </section>
   );
 }
+export default CountrySelector;

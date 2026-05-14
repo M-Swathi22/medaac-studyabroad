@@ -257,7 +257,7 @@ function NotFound({ onBack }) {
 }
 
 /* ─────────────────── MAIN PAGE ─────────────────── */
-export default function StatePage() {
+ function StatePage() {
   const { stateId } = useParams();
   const navigate = useNavigate();
   const [heroVisible, setHeroVisible] = useState(false);
@@ -712,3 +712,4 @@ export default function StatePage() {
     </div>
   );
 }
+export default StatePage;

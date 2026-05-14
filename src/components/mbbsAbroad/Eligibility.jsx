@@ -272,7 +272,7 @@ function EligibilityCard({ item, index }) {
   );
 }
 
-export default function MBBSEligibilitySection() {
+ function EligibilitySection() {
   return (
     <section
       style={{
@@ -369,3 +369,4 @@ export default function MBBSEligibilitySection() {
     </section>
   );
 }
+export default EligibilitySection;

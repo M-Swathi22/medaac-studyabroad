@@ -26,7 +26,7 @@ const STATE_DATA = {
   },
 };
 
-export default function StatePage() {
+ function StatePage() {
   const { stateId } = useParams();
 
   const state = STATE_DATA[stateId];
@@ -61,3 +61,4 @@ export default function StatePage() {
     </div>
   );
 }
+export default StatePage;

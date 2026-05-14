@@ -1,4 +1,4 @@
-export default function CourseCTA() {
+function CourseCTA() {
   return (
     <div className="text-center py-16 bg-[#12000a] text-white">
       <h2 className="text-3xl font-bold">Need Guidance?</h2>
@@ -11,3 +11,4 @@ export default function CourseCTA() {
     </div>
   );
 }
+export default CourseCTA;
